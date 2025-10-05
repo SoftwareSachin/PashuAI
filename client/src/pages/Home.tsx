@@ -14,7 +14,7 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Hero />
       <Statistics />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 space-y-16 md:space-y-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16 lg:py-24 space-y-8 sm:space-y-12 md:space-y-16 lg:space-y-24">
         <WeatherForecast />
         <MarketPrices />
         <CropRecommendations />

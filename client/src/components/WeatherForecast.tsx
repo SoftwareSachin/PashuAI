@@ -28,10 +28,10 @@ export function WeatherForecast() {
 
   return (
     <section id="weather">
-      <h2 className="text-3xl font-semibold text-foreground mb-6">Weather Forecast</h2>
+      <h2 className="text-2xl sm:text-3xl font-semibold text-foreground mb-4 sm:mb-6">Weather Forecast</h2>
       
-      <Card className="p-6">
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      <Card className="p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row gap-3 mb-4 sm:mb-6">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -43,46 +43,46 @@ export function WeatherForecast() {
               data-testid="input-location"
             />
           </div>
-          <Button onClick={handleSearch} disabled={isLoading} data-testid="button-search-weather">
+          <Button onClick={handleSearch} disabled={isLoading} className="w-full sm:w-auto" data-testid="button-search-weather">
             <MapPin className="h-4 w-4 mr-2" />
             Search
           </Button>
         </div>
 
         {isLoading ? (
-          <div className="flex items-center justify-center py-12">
+          <div className="flex items-center justify-center py-8 sm:py-12">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : weather ? (
           <div>
-            <div className="mb-6">
-              <h3 className="text-2xl font-semibold text-foreground mb-1" data-testid="text-weather-location">
+            <div className="mb-4 sm:mb-6">
+              <h3 className="text-xl sm:text-2xl font-semibold text-foreground mb-1" data-testid="text-weather-location">
                 {weather.location}
               </h3>
-              <div className="flex items-center gap-4 mt-4">
-                <div className="text-5xl font-bold text-foreground" data-testid="text-temperature">
+              <div className="flex items-center gap-3 sm:gap-4 mt-3 sm:mt-4">
+                <div className="text-4xl sm:text-5xl font-bold text-foreground" data-testid="text-temperature">
                   {weather.temperature}°C
                 </div>
                 <div>
-                  <div className="text-lg text-foreground capitalize" data-testid="text-condition">
+                  <div className="text-base sm:text-lg text-foreground capitalize" data-testid="text-condition">
                     {weather.condition}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-xs sm:text-sm text-muted-foreground">
                     Humidity: <span data-testid="text-humidity">{weather.humidity}%</span> • Wind: <span data-testid="text-wind-speed">{weather.windSpeed} km/h</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
               {weather.forecast.map((day, index) => {
                 const Icon = getWeatherIcon(day.condition);
                 return (
-                  <Card key={index} className="p-4 text-center bg-muted" data-testid={`forecast-day-${index}`}>
-                    <div className="text-sm font-medium text-foreground mb-2">{day.day}</div>
-                    <Icon className="h-8 w-8 text-primary mx-auto mb-2" />
-                    <div className="text-sm text-muted-foreground capitalize mb-2">{day.condition}</div>
-                    <div className="text-sm">
+                  <Card key={index} className="p-3 sm:p-4 text-center bg-muted" data-testid={`forecast-day-${index}`}>
+                    <div className="text-xs sm:text-sm font-medium text-foreground mb-2">{day.day}</div>
+                    <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-primary mx-auto mb-2" />
+                    <div className="text-xs sm:text-sm text-muted-foreground capitalize mb-2">{day.condition}</div>
+                    <div className="text-xs sm:text-sm">
                       <span className="font-semibold text-foreground">{day.high}°</span>
                       <span className="text-muted-foreground"> / {day.low}°</span>
                     </div>

@@ -48,27 +48,27 @@ export function Features() {
   ];
 
   return (
-    <section id="features" className="py-16 md:py-24 bg-card border-y border-border">
+    <section id="features" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-card border-y border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground mb-3 sm:mb-4 px-4">
             Comprehensive Agricultural Solutions
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
             From crop management to livestock care, access expert AI guidance in your language
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {features.map((feature) => (
             <Card
               key={feature.title}
-              className="p-6 hover-elevate bg-background"
+              className="p-5 sm:p-6 hover-elevate bg-background"
               data-testid={feature.testId}
             >
-              <feature.icon className="h-10 w-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold text-foreground mb-3">{feature.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{feature.description}</p>
+              <feature.icon className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 text-primary mb-3 sm:mb-4" />
+              <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 sm:mb-3">{feature.title}</h3>
+              <p className="text-sm text-muted-foreground mb-3 sm:mb-4 leading-relaxed">{feature.description}</p>
               <div className="flex flex-wrap gap-2">
                 {feature.tags.map((tag, idx) => (
                   <span
