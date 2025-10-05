@@ -110,17 +110,14 @@ export default function Chat() {
       if (!response.ok) {
         let errorMessage = 'Failed to analyze image';
         try {
-          // Clone the response so we can try different parsing strategies
           const cloned = response.clone();
           const error = await cloned.json();
           errorMessage = error.error || errorMessage;
         } catch {
-          // If JSON parsing fails, try to get text from original response
           try {
             const text = await response.text();
             errorMessage = text || `Server error: ${response.status}`;
           } catch {
-            // If both fail, use status-based message
             errorMessage = `Server error: ${response.status}`;
           }
         }
@@ -215,7 +212,6 @@ export default function Chat() {
     recognition.continuous = true;
     recognition.interimResults = true;
     
-    // Map language codes to speech recognition language codes
     const languageMap: Record<string, string> = {
       en: 'en-US',
       hi: 'hi-IN',
@@ -293,35 +289,30 @@ export default function Chat() {
   };
 
   return (
-    <div className="h-screen bg-background flex flex-col overflow-hidden">
-      <header className="shrink-0 border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
-          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+    <div className="h-screen bg-background flex flex-col">
+      <header className="shrink-0 border-b border-border bg-background">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <Link href="/">
-              <Button variant="ghost" size="icon" className="hover:bg-accent shrink-0 h-9 w-9 sm:h-10 sm:w-10" data-testid="button-back">
-                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+              <Button variant="ghost" size="icon" className="rounded-full" data-testid="button-back">
+                <ArrowLeft className="h-5 w-5" />
               </Button>
             </Link>
-            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg border-2 border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
-                <span className="text-sm sm:text-lg font-bold text-primary">PA</span>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-lg bg-primary/10 dark:bg-primary/10 flex items-center justify-center">
+                <span className="text-base font-semibold text-primary">PA</span>
               </div>
-              <div className="min-w-0">
-                <h1 className="text-base sm:text-lg font-semibold text-foreground tracking-tight truncate">PashuAI</h1>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1.5">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                    </span>
-                    <span className="text-xs font-medium text-muted-foreground">Active</span>
-                  </div>
+              <div>
+                <h1 className="text-base font-semibold text-foreground">PashuAI</h1>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-green-500"></span>
+                  <span className="text-xs text-muted-foreground">Active</span>
                 </div>
               </div>
             </div>
           </div>
           <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-            <SelectTrigger className="w-[100px] sm:w-[140px] border-border/50 shrink-0" data-testid="select-language">
+            <SelectTrigger className="w-[130px]" data-testid="select-language">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -335,23 +326,23 @@ export default function Chat() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto bg-background">
-        <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 pb-4">
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
           {messages.length === 0 && !sendMessageMutation.isPending && (
-            <div className="text-center py-8 sm:py-12 lg:py-16">
-              <div className="inline-flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border-2 border-primary/20 bg-primary/5 mb-4 sm:mb-6">
-                <span className="text-2xl sm:text-3xl font-bold text-primary">PA</span>
+            <div className="text-center py-16">
+              <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 dark:bg-primary/10 mb-6">
+                <span className="text-2xl font-semibold text-primary">PA</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-semibold text-foreground mb-3 sm:mb-4 tracking-tight px-4">
+              <h2 className="text-2xl font-semibold text-foreground mb-3">
                 Welcome to PashuAI
               </h2>
-              <p className="text-muted-foreground max-w-xl mx-auto text-sm sm:text-base leading-relaxed px-4">
+              <p className="text-muted-foreground max-w-2xl mx-auto text-base">
                 Your AI agricultural assistant. Ask me about crop management, livestock care, disease detection, or market prices. I'm here to help you make informed farming decisions.
               </p>
             </div>
           )}
 
-          <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-5">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -359,23 +350,23 @@ export default function Chat() {
                 data-testid={`message-${message.role}`}
               >
                 <div
-                  className={`max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 sm:px-5 py-3 sm:py-3.5 ${
+                  className={`max-w-[85%] rounded-2xl px-4 py-3 ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-muted/80 border border-border/50"
+                      : "bg-muted border border-border"
                   }`}
                 >
-                  <p className="text-sm sm:text-[15px] leading-relaxed whitespace-pre-wrap break-words">{message.content}</p>
+                  <p className="text-[15px] leading-relaxed whitespace-pre-wrap break-words">{message.content}</p>
                 </div>
               </div>
             ))}
 
             {(sendMessageMutation.isPending || sendImageMutation.isPending) && (
               <div className="flex justify-start">
-                <div className="max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 sm:px-5 py-3 sm:py-3.5 bg-muted/80 border border-border/50">
+                <div className="max-w-[85%] rounded-2xl px-4 py-3 bg-muted border border-border">
                   <div className="flex items-center gap-2.5">
                     <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                    <p className="text-sm sm:text-[15px] text-muted-foreground">
+                    <p className="text-[15px] text-muted-foreground">
                       {sendImageMutation.isPending ? "Analyzing your image..." : "Analyzing your question..."}
                     </p>
                   </div>
@@ -388,33 +379,33 @@ export default function Chat() {
         </div>
       </div>
 
-      <div className="shrink-0 border-t border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 safe-area-bottom">
-        <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5">
+      <div className="shrink-0 border-t border-border bg-background">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
           {imagePreview && (
             <div className="mb-3 relative inline-block">
-              <div className="relative rounded-lg overflow-hidden border-2 border-border/50">
+              <div className="relative rounded-lg overflow-hidden border border-border">
                 <img 
                   src={imagePreview} 
                   alt="Selected" 
-                  className="max-h-32 sm:max-h-40 object-contain"
+                  className="max-h-32 object-contain"
                   data-testid="image-preview"
                 />
                 <Button
                   onClick={handleRemoveImage}
                   size="icon"
                   variant="destructive"
-                  className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 rounded-full"
+                  className="absolute top-2 right-2 h-7 w-7 rounded-full"
                   data-testid="button-remove-image"
                 >
-                  <X className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <X className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-muted-foreground mt-1.5">
                 Add a message (optional) or send to analyze
               </p>
             </div>
           )}
-          <div className="flex gap-2 sm:gap-3 items-end">
+          <div className="flex gap-2 items-end">
             <input
               ref={fileInputRef}
               type="file"
@@ -427,26 +418,26 @@ export default function Chat() {
               onClick={() => fileInputRef.current?.click()}
               size="icon"
               variant="outline"
-              className="h-[48px] w-[48px] sm:h-[56px] sm:w-[56px] rounded-xl shrink-0 border-border/50"
+              className="h-11 w-11 rounded-lg shrink-0"
               disabled={sendMessageMutation.isPending || sendImageMutation.isPending || isRecording}
               data-testid="button-upload-image"
             >
-              <ImagePlus className="h-5 w-5 sm:h-6 sm:w-6" />
+              <ImagePlus className="h-5 w-5" />
             </Button>
             <Button
               onClick={isRecording ? stopVoiceRecording : startVoiceRecording}
               size="icon"
               variant={isRecording ? "default" : "outline"}
-              className={`h-[48px] w-[48px] sm:h-[56px] sm:w-[56px] rounded-xl shrink-0 border-border/50 ${
-                isRecording ? 'bg-red-500 hover:bg-red-600 animate-pulse' : ''
+              className={`h-11 w-11 rounded-lg shrink-0 ${
+                isRecording ? 'bg-red-500 hover:bg-red-600' : ''
               }`}
               disabled={sendMessageMutation.isPending || sendImageMutation.isPending}
               data-testid="button-voice-input"
             >
               {isRecording ? (
-                <MicOff className="h-5 w-5 sm:h-6 sm:w-6" />
+                <MicOff className="h-5 w-5" />
               ) : (
-                <Mic className="h-5 w-5 sm:h-6 sm:w-6" />
+                <Mic className="h-5 w-5" />
               )}
             </Button>
             <Textarea
@@ -459,7 +450,7 @@ export default function Chat() {
                 }
               }}
               placeholder={selectedImage ? "Add description (optional)..." : "Ask me about crops, livestock, weather, or market prices..."}
-              className="resize-none min-h-[48px] sm:min-h-[56px] rounded-xl border-border/50 focus-visible:ring-primary/20 text-sm sm:text-base"
+              className="resize-none min-h-[44px] rounded-lg text-[15px]"
               rows={1}
               data-testid="input-message"
             />
@@ -467,10 +458,10 @@ export default function Chat() {
               onClick={handleSend}
               disabled={(selectedImage ? false : !input.trim()) || sendMessageMutation.isPending || sendImageMutation.isPending}
               size="icon"
-              className="h-[48px] w-[48px] sm:h-[56px] sm:w-[56px] rounded-xl shrink-0"
+              className="h-11 w-11 rounded-lg shrink-0 bg-primary hover:bg-primary/90"
               data-testid="button-send"
             >
-              <Send className="h-4 w-4 sm:h-5 sm:w-5" />
+              <Send className="h-5 w-5" />
             </Button>
           </div>
         </div>
