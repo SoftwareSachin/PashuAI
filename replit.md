@@ -2,7 +2,7 @@
 
 ## Overview
 
-PashuAI is a multilingual AI agricultural advisory platform designed to empower farmers with intelligent guidance for crop management, livestock care, disease detection, and market insights. The platform provides a conversational AI interface powered by Google's Gemini AI, supporting 20+ Indian languages to make agricultural expertise accessible to farmers across India.
+PashuAI is a multilingual AI agricultural advisory platform designed to empower farmers with intelligent guidance for crop management, livestock care, disease detection, and market insights. The platform provides a conversational AI interface powered by Google's Gemini AI, supporting 25+ Indian languages to make agricultural expertise accessible to farmers across India.
 
 **Core Purpose:** Democratize agricultural knowledge through AI-powered advisory services that understand local context, support multiple languages, and provide actionable insights for farming communities.
 
@@ -58,7 +58,7 @@ Preferred communication style: Simple, everyday language.
 - Google Gemini AI integration via `@google/genai` SDK
 - System prompt engineering for agricultural domain expertise
 - Conversation history management for contextual responses
-- Multilingual response generation based on selected language
+- Multilingual response generation supporting 25+ Indian languages (English, Hindi, Bengali, Telugu, Marathi, Tamil, Urdu, Gujarati, Kannada, Malayalam, Odia, Punjabi, Assamese, Bhojpuri, Magahi, Maithili, Rajasthani, Chhattisgarhi, Sindhi, Kashmiri, Nepali, Sanskrit, Konkani, Manipuri, Santali)
 
 **Database Layer**
 - **ORM:** Drizzle ORM with type-safe schema definitions
