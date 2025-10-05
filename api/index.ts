@@ -1,9 +1,9 @@
 import express, { type Request, Response, NextFunction } from "express";
 import type { Express } from "express";
-import { storage } from "../server/storage";
-import { generateAgriculturalAdvice } from "../server/gemini";
-import { insertConversationSchema, insertMessageSchema } from "../shared/schema";
-import type { WeatherData, MarketPrice, CropRecommendation } from "../shared/schema";
+import { storage } from "../server/storage.js";
+import { generateAgriculturalAdvice } from "../server/gemini.js";
+import { insertConversationSchema, insertMessageSchema } from "../shared/schema.js";
+import type { WeatherData, MarketPrice, CropRecommendation } from "../shared/schema.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
