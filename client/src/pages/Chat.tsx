@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Send, Loader2, ImagePlus, X } from "lucide-react";
+import { ArrowLeft, Send, Loader2, ImagePlus, X, Mic, MicOff } from "lucide-react";
 import { Link } from "wouter";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Conversation, Message } from "@shared/schema";
@@ -45,8 +45,10 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const recognitionRef = useRef<any>(null);
   const { toast } = useToast();
 
   const { data: messages = [], isLoading: messagesLoading } = useQuery<Message[]>({
@@ -197,6 +199,99 @@ export default function Chat() {
     }
   };
 
+  const startVoiceRecording = () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      toast({
+        title: "Not Supported",
+        description: "Voice input is not supported in your browser. Please try Chrome or Edge.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    
+    // Map language codes to speech recognition language codes
+    const languageMap: Record<string, string> = {
+      en: 'en-US',
+      hi: 'hi-IN',
+      bn: 'bn-IN',
+      te: 'te-IN',
+      mr: 'mr-IN',
+      ta: 'ta-IN',
+      ur: 'ur-PK',
+      gu: 'gu-IN',
+      kn: 'kn-IN',
+      ml: 'ml-IN',
+      or: 'or-IN',
+      pa: 'pa-IN',
+      as: 'as-IN',
+      ne: 'ne-NP',
+    };
+    
+    recognition.lang = languageMap[selectedLanguage] || 'en-US';
+
+    recognition.onstart = () => {
+      setIsRecording(true);
+    };
+
+    recognition.onresult = (event: any) => {
+      let interimTranscript = '';
+      let finalTranscript = '';
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript + ' ';
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+
+      if (finalTranscript) {
+        setInput(prev => prev + finalTranscript);
+      }
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      setIsRecording(false);
+      
+      if (event.error === 'no-speech') {
+        toast({
+          title: "No Speech Detected",
+          description: "Please try speaking again.",
+          variant: "destructive",
+        });
+      } else if (event.error !== 'aborted') {
+        toast({
+          title: "Error",
+          description: "Voice recognition failed. Please try again.",
+          variant: "destructive",
+        });
+      }
+    };
+
+    recognition.onend = () => {
+      setIsRecording(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+  };
+
+  const stopVoiceRecording = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+      setIsRecording(false);
+    }
+  };
+
   return (
     <div className="h-screen bg-background flex flex-col overflow-hidden">
       <header className="shrink-0 border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -333,10 +428,26 @@ export default function Chat() {
               size="icon"
               variant="outline"
               className="h-[48px] w-[48px] sm:h-[56px] sm:w-[56px] rounded-xl shrink-0 border-border/50"
-              disabled={sendMessageMutation.isPending || sendImageMutation.isPending}
+              disabled={sendMessageMutation.isPending || sendImageMutation.isPending || isRecording}
               data-testid="button-upload-image"
             >
               <ImagePlus className="h-5 w-5 sm:h-6 sm:w-6" />
+            </Button>
+            <Button
+              onClick={isRecording ? stopVoiceRecording : startVoiceRecording}
+              size="icon"
+              variant={isRecording ? "default" : "outline"}
+              className={`h-[48px] w-[48px] sm:h-[56px] sm:w-[56px] rounded-xl shrink-0 border-border/50 ${
+                isRecording ? 'bg-red-500 hover:bg-red-600 animate-pulse' : ''
+              }`}
+              disabled={sendMessageMutation.isPending || sendImageMutation.isPending}
+              data-testid="button-voice-input"
+            >
+              {isRecording ? (
+                <MicOff className="h-5 w-5 sm:h-6 sm:w-6" />
+              ) : (
+                <Mic className="h-5 w-5 sm:h-6 sm:w-6" />
+              )}
             </Button>
             <Textarea
               value={input}
