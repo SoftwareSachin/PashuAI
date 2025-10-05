@@ -37,8 +37,10 @@ Preferred communication style: Simple, everyday language.
 **Key UI Patterns**
 - Card-based information display for agricultural data (weather, market prices, crop recommendations)
 - Conversational chat interface with message history
+- **Image Upload Interface:** In-chat image upload with preview, remove capability, and optional text description
 - Language selector for multilingual support
 - Responsive design optimized for mobile field use
+- Toast notifications for errors and validation feedback
 
 ### Backend Architecture
 
@@ -52,13 +54,27 @@ Preferred communication style: Simple, everyday language.
 - `POST /api/conversations` - Create new conversation sessions
 - `GET /api/messages/:conversationId` - Retrieve message history
 - `POST /api/chat` - Send messages and receive AI responses
+- `POST /api/analyze-image` - Upload and analyze agricultural images (NEW)
 - Frontend-only endpoints (not implemented): `/api/weather`, `/api/market-prices`, `/api/crops`
 
 **AI Integration Layer**
 - Google Gemini AI integration via `@google/genai` SDK
+- **Vision Analysis:** Gemini-powered image analysis for crop diseases, livestock health, pest detection, and soil conditions
 - System prompt engineering for agricultural domain expertise
 - Conversation history management for contextual responses
 - Multilingual response generation supporting 25+ Indian languages (English, Hindi, Bengali, Telugu, Marathi, Tamil, Urdu, Gujarati, Kannada, Malayalam, Odia, Punjabi, Assamese, Bhojpuri, Magahi, Maithili, Rajasthani, Chhattisgarhi, Sindhi, Kashmiri, Nepali, Sanskrit, Konkani, Manipuri, Santali)
+
+**Image Upload & Analysis (NEW)**
+- **File Handling:** Multer middleware with memory storage (10MB limit)
+- **Supported Formats:** All image formats (JPEG, PNG, WEBP, etc.)
+- **Analysis Capabilities:** 
+  - Crop disease detection and diagnosis
+  - Livestock health assessment (cattle, buffalo, goats, sheep)
+  - Pest identification
+  - Nutrient deficiency detection
+  - Soil quality evaluation
+  - Plant growth stage analysis
+- **Production-Ready:** Serverless-compatible, optimized for Vercel deployment
 
 **Database Layer**
 - **ORM:** Drizzle ORM with type-safe schema definitions
