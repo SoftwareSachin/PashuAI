@@ -132,6 +132,9 @@ export default function Chat() {
       setInput("");
       setSelectedImage(null);
       setImagePreview(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     },
     onError: (error: Error) => {
       toast({
