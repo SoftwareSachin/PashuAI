@@ -35,20 +35,21 @@ export default function Chat() {
       let currentConvId = conversationId;
       
       if (!currentConvId) {
-        const conv = await apiRequest<Conversation>("POST", "/api/conversations", {
+        const convRes = await apiRequest("POST", "/api/conversations", {
           language: selectedLanguage,
         });
+        const conv = await convRes.json() as Conversation;
         currentConvId = conv.id;
         setConversationId(currentConvId);
       }
 
-      const response = await apiRequest<Message>("POST", "/api/chat", {
+      const messageRes = await apiRequest("POST", "/api/chat", {
         conversationId: currentConvId,
         message,
         language: selectedLanguage,
       });
 
-      return response;
+      return await messageRes.json() as Message;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/messages", conversationId] });
@@ -67,27 +68,34 @@ export default function Chat() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="border-b border-border bg-card">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/">
-              <Button variant="ghost" size="icon" data-testid="button-back">
+              <Button variant="ghost" size="icon" className="hover:bg-accent" data-testid="button-back">
                 <ArrowLeft className="h-5 w-5" />
               </Button>
             </Link>
-            <div>
-              <h1 className="text-xl font-semibold text-foreground">PashuAI</h1>
-              <div className="flex items-center gap-2 mt-1">
-                <Badge variant="outline" className="text-xs">
-                  <span className="w-2 h-2 rounded-full bg-green-500 mr-1.5"></span>
-                  Online
-                </Badge>
-                <span className="text-sm text-muted-foreground">Ready to help</span>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-lg border-2 border-primary/20 bg-primary/10 flex items-center justify-center">
+                <span className="text-lg font-bold text-primary">PA</span>
+              </div>
+              <div>
+                <h1 className="text-lg font-semibold text-foreground tracking-tight">PashuAI</h1>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span className="text-xs font-medium text-muted-foreground">Active</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-            <SelectTrigger className="w-40" data-testid="select-language">
+            <SelectTrigger className="w-[140px] border-border/50" data-testid="select-language">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -101,46 +109,49 @@ export default function Chat() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex-1 overflow-y-auto bg-background">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 py-8">
           {messages.length === 0 && !sendMessageMutation.isPending && (
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-semibold text-foreground mb-3">
+            <div className="text-center py-16">
+              <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-primary/20 bg-primary/5 mb-6">
+                <span className="text-3xl font-bold text-primary">PA</span>
+              </div>
+              <h2 className="text-3xl font-semibold text-foreground mb-4 tracking-tight">
                 Welcome to PashuAI
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-muted-foreground max-w-xl mx-auto text-base leading-relaxed">
                 Your AI agricultural assistant. Ask me about crop management, livestock care, disease detection, or market prices. I'm here to help you make informed farming decisions.
               </p>
             </div>
           )}
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             {messages.map((message) => (
               <div
                 key={message.id}
                 className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 data-testid={`message-${message.role}`}
               >
-                <Card
-                  className={`max-w-[80%] p-4 ${
+                <div
+                  className={`max-w-[85%] rounded-2xl px-5 py-3.5 ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-card"
+                      : "bg-muted/80 border border-border/50"
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                </Card>
+                  <p className="text-[15px] leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                </div>
               </div>
             ))}
 
             {sendMessageMutation.isPending && (
               <div className="flex justify-start">
-                <Card className="max-w-[80%] p-4 bg-card">
-                  <div className="flex items-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    <p className="text-sm text-muted-foreground">Thinking...</p>
+                <div className="max-w-[85%] rounded-2xl px-5 py-3.5 bg-muted/80 border border-border/50">
+                  <div className="flex items-center gap-2.5">
+                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                    <p className="text-[15px] text-muted-foreground">Analyzing your question...</p>
                   </div>
-                </Card>
+                </div>
               </div>
             )}
 
@@ -149,9 +160,9 @@ export default function Chat() {
         </div>
       </div>
 
-      <div className="border-t border-border bg-card">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex gap-2">
+      <div className="border-t border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 py-5">
+          <div className="flex gap-3 items-end">
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -162,22 +173,19 @@ export default function Chat() {
                 }
               }}
               placeholder="Ask me about crops, livestock, weather, or market prices..."
-              className="resize-none min-h-[60px]"
+              className="resize-none min-h-[56px] rounded-xl border-border/50 focus-visible:ring-primary/20"
               data-testid="input-message"
             />
             <Button
               onClick={handleSend}
               disabled={!input.trim() || sendMessageMutation.isPending}
               size="icon"
-              className="h-[60px] w-[60px]"
+              className="h-[56px] w-[56px] rounded-xl"
               data-testid="button-send"
             >
               <Send className="h-5 w-5" />
             </Button>
           </div>
-          <p className="text-xs text-muted-foreground mt-2 text-center">
-            Powered by Gemini AI Models
-          </p>
         </div>
       </div>
     </div>

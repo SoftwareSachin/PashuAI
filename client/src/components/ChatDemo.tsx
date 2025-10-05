@@ -60,55 +60,53 @@ export function ChatDemo() {
             </Link>
           </div>
 
-          <Card className="p-6 bg-card">
-            <div className="flex items-center justify-between mb-4 pb-4 border-b border-border">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
-                  <MessageSquare className="h-5 w-5 text-primary-foreground" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-foreground">PashuAI</h4>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      <span className="w-2 h-2 rounded-full bg-green-500 mr-1"></span>
-                      Online
-                    </Badge>
-                    <span className="text-xs text-muted-foreground">Ready to help</span>
+          <Card className="p-8 bg-card border-border/50">
+            <div className="flex items-center gap-4 mb-6 pb-6 border-b border-border/50">
+              <div className="h-12 w-12 rounded-xl border-2 border-primary/20 bg-primary/10 flex items-center justify-center">
+                <span className="text-xl font-bold text-primary">PA</span>
+              </div>
+              <div>
+                <h4 className="font-semibold text-foreground text-base">PashuAI</h4>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span className="text-xs font-medium text-muted-foreground">Active</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <Card className="p-4 bg-muted border-none">
-                <p className="text-sm text-foreground">
+            <div className="space-y-5">
+              <div className="rounded-2xl px-5 py-4 bg-muted/80 border border-border/50">
+                <p className="text-[15px] text-foreground leading-relaxed">
                   Namaste! I'm your AI agricultural assistant. I can help with crop management, livestock care, disease detection, and market prices. How can I assist you today?
                 </p>
-              </Card>
+              </div>
 
-              <Card className="p-4 bg-primary text-primary-foreground border-none ml-8">
-                <p className="text-sm">
-                  My wheat crop is showing yellow spots on leaves. What could be the problem?
-                </p>
-              </Card>
+              <div className="flex justify-end">
+                <div className="rounded-2xl px-5 py-4 bg-primary text-primary-foreground max-w-[85%]">
+                  <p className="text-[15px] leading-relaxed">
+                    My wheat crop is showing yellow spots on leaves. What could be the problem?
+                  </p>
+                </div>
+              </div>
 
-              <Card className="p-4 bg-muted border-none">
-                <p className="text-sm text-foreground mb-3">
+              <div className="rounded-2xl px-5 py-4 bg-muted/80 border border-border/50">
+                <p className="text-[15px] text-foreground mb-3 leading-relaxed">
                   Yellow spots on wheat leaves could indicate:
                 </p>
-                <ul className="text-sm text-foreground space-y-1 list-disc list-inside">
+                <ul className="text-[15px] text-foreground space-y-1.5 list-disc list-inside ml-1">
                   <li>Wheat rust (fungal disease)</li>
                   <li>Nitrogen deficiency</li>
                   <li>Septoria leaf blotch</li>
                 </ul>
-                <p className="text-sm text-foreground mt-3">
+                <p className="text-[15px] text-foreground mt-3 leading-relaxed">
                   Would you like to upload a photo for precise diagnosis?
                 </p>
-              </Card>
-            </div>
-
-            <div className="mt-4 pt-4 border-t border-border text-center">
-              <p className="text-xs text-muted-foreground">Powered by Gemini AI Models</p>
+              </div>
             </div>
           </Card>
         </div>
