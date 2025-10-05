@@ -1,9 +1,24 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage.js";
-import { generateAgriculturalAdvice } from "./gemini.js";
+import { generateAgriculturalAdvice, analyzeAgriculturalImage } from "./gemini.js";
 import { insertConversationSchema, insertMessageSchema } from "../shared/schema.js";
 import type { WeatherData, MarketPrice, CropRecommendation } from "../shared/schema.js";
+import multer from "multer";
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'));
+    }
+  },
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Conversation endpoints
@@ -64,6 +79,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(assistantMessage);
     } catch (error: any) {
       console.error("Chat error:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Image analysis endpoint
+  app.post("/api/analyze-image", (req, res, next) => {
+    upload.single('image')(req, res, (err) => {
+      if (err) {
+        if (err instanceof multer.MulterError) {
+          if (err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).json({ error: "Image size should be less than 10MB" });
+          }
+          return res.status(400).json({ error: err.message });
+        }
+        return res.status(400).json({ error: err.message || "Invalid file upload" });
+      }
+      next();
+    });
+  }, async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No image file provided" });
+      }
+
+      const { conversationId, message = "", language = "en" } = req.body;
+
+      if (!conversationId) {
+        return res.status(400).json({ error: "conversationId is required" });
+      }
+
+      // Convert buffer to base64
+      const imageBase64 = req.file.buffer.toString('base64');
+      const mimeType = req.file.mimetype;
+
+      // Save user message with image indicator
+      const userMessage = message || "Uploaded an image for analysis";
+      await storage.createMessage({
+        conversationId,
+        role: "user",
+        content: userMessage,
+      });
+
+      // Analyze image with Gemini
+      const aiResponse = await analyzeAgriculturalImage(imageBase64, mimeType, message, language);
+
+      // Save AI response
+      const assistantMessage = await storage.createMessage({
+        conversationId,
+        role: "assistant",
+        content: aiResponse,
+      });
+
+      res.json(assistantMessage);
+    } catch (error: any) {
+      console.error("Image analysis error:", error);
       res.status(500).json({ error: error.message });
     }
   });
