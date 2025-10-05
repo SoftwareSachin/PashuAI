@@ -1,18 +1,79 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, integer, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
+// Chat conversations table
+export const conversations = pgTable("conversations", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+  language: text("language").notNull().default("en"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+// Chat messages table
+export const messages = pgTable("messages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  conversationId: varchar("conversation_id").notNull().references(() => conversations.id, { onDelete: "cascade" }),
+  role: text("role").notNull(), // 'user' or 'assistant'
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+// Insert schemas
+export const insertConversationSchema = createInsertSchema(conversations).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertMessageSchema = createInsertSchema(messages).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Types
+export type Conversation = typeof conversations.$inferSelect;
+export type InsertConversation = z.infer<typeof insertConversationSchema>;
+export type Message = typeof messages.$inferSelect;
+export type InsertMessage = z.infer<typeof insertMessageSchema>;
+
+// Frontend-only types (no database persistence needed)
+export interface WeatherData {
+  location: string;
+  temperature: number;
+  condition: string;
+  humidity: number;
+  windSpeed: number;
+  forecast: {
+    day: string;
+    high: number;
+    low: number;
+    condition: string;
+  }[];
+}
+
+export interface MarketPrice {
+  id: string;
+  commodity: string;
+  price: number;
+  unit: string;
+  market: string;
+  change: number;
+  updatedAt: string;
+}
+
+export interface CropRecommendation {
+  id: string;
+  name: string;
+  profitPotential: number;
+  marketDemand: "High" | "Medium" | "Low";
+  season: string;
+  investment: string;
+  description: string;
+  imageUrl?: string;
+}
+
+export interface LanguageOption {
+  code: string;
+  name: string;
+  nativeName: string;
+}
