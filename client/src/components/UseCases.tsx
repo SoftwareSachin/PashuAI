@@ -42,46 +42,47 @@ export function UseCases() {
   ];
 
   return (
-    <section id="use-cases" className="py-16 md:py-24 bg-background">
+    <section id="use-cases" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground mb-3 sm:mb-4 px-2">
             Transforming Agriculture Across Use Cases
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-sm xs:text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
             From farmers to enterprises, our AI platform serves diverse agricultural needs
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {cases.map((useCase) => (
             <Card
               key={useCase.title}
               className="group overflow-hidden hover-elevate transition-all duration-300"
               data-testid={useCase.testId}
             >
-              <div className="relative h-56 overflow-hidden">
+              <div className="relative h-48 xs:h-52 sm:h-56 md:h-60 overflow-hidden">
                 <img 
                   src={useCase.image} 
                   alt={useCase.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
-                <div className="absolute bottom-6 left-6">
-                  <div className="bg-primary/90 backdrop-blur-sm p-3 rounded-lg mb-3">
-                    <useCase.icon className="h-8 w-8 text-primary-foreground" />
+                <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 right-4">
+                  <div className="bg-primary/90 backdrop-blur-sm p-2 sm:p-3 rounded-lg mb-2 sm:mb-3 inline-block">
+                    <useCase.icon className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
                   </div>
-                  <h3 className="text-2xl font-semibold text-white">{useCase.title}</h3>
+                  <h3 className="text-lg xs:text-xl sm:text-2xl font-semibold text-white">{useCase.title}</h3>
                 </div>
               </div>
               
-              <div className="p-8">
-                <p className="text-muted-foreground mb-6 leading-relaxed">{useCase.description}</p>
+              <div className="p-5 xs:p-6 sm:p-7 md:p-8">
+                <p className="text-xs xs:text-sm sm:text-base text-muted-foreground mb-4 sm:mb-5 md:mb-6 leading-relaxed">{useCase.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {useCase.features.map((feature, idx) => (
                     <span
                       key={feature}
-                      className="text-sm px-3 py-1 bg-muted text-foreground rounded-md border border-border font-medium"
+                      className="text-xs xs:text-sm px-2.5 xs:px-3 py-1 bg-muted text-foreground rounded-md border border-border font-medium"
                       data-testid={`feature-${useCase.testId}-${idx}`}
                     >
                       {feature}

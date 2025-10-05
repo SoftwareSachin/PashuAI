@@ -63,43 +63,44 @@ export function Features() {
     <section id="features" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-card border-y border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground mb-3 sm:mb-4 px-4">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground mb-3 sm:mb-4 px-2 sm:px-4">
             Comprehensive Agricultural Solutions
           </h2>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
+          <p className="text-sm xs:text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
             From crop management to livestock care, access expert AI guidance in your language
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {features.map((feature) => (
             <Card
               key={feature.title}
               className="group overflow-hidden hover-elevate bg-background transition-all duration-300"
               data-testid={feature.testId}
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-40 xs:h-44 sm:h-48 md:h-52 overflow-hidden">
                 <img 
                   src={feature.image} 
                   alt={feature.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                <div className="absolute bottom-4 left-4">
-                  <div className="bg-primary/90 backdrop-blur-sm p-2.5 rounded-lg">
-                    <feature.icon className="h-6 w-6 text-primary-foreground" />
+                <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
+                  <div className="bg-primary/90 backdrop-blur-sm p-2 sm:p-2.5 rounded-lg">
+                    <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-foreground" />
                   </div>
                 </div>
               </div>
               
-              <div className="p-5 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 sm:mb-3">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground mb-3 sm:mb-4 leading-relaxed">{feature.description}</p>
+              <div className="p-4 xs:p-5 sm:p-6">
+                <h3 className="text-base xs:text-lg sm:text-xl font-semibold text-foreground mb-2 sm:mb-3">{feature.title}</h3>
+                <p className="text-xs xs:text-sm text-muted-foreground mb-3 sm:mb-4 leading-relaxed">{feature.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {feature.tags.map((tag, idx) => (
                     <span
                       key={tag}
-                      className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded-md border border-border"
+                      className="text-[10px] xs:text-xs px-2 py-1 bg-muted text-muted-foreground rounded-md border border-border"
                       data-testid={`tag-${feature.testId}-${idx}`}
                     >
                       {tag}
