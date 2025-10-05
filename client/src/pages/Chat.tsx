@@ -106,8 +106,23 @@ export default function Chat() {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to analyze image');
+        let errorMessage = 'Failed to analyze image';
+        try {
+          // Clone the response so we can try different parsing strategies
+          const cloned = response.clone();
+          const error = await cloned.json();
+          errorMessage = error.error || errorMessage;
+        } catch {
+          // If JSON parsing fails, try to get text from original response
+          try {
+            const text = await response.text();
+            errorMessage = text || `Server error: ${response.status}`;
+          } catch {
+            // If both fail, use status-based message
+            errorMessage = `Server error: ${response.status}`;
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       return await response.json() as Message;
