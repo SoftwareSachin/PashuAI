@@ -67,21 +67,21 @@ export default function Chat() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
+      <header className="shrink-0 border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
             <Link href="/">
-              <Button variant="ghost" size="icon" className="hover:bg-accent" data-testid="button-back">
-                <ArrowLeft className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="hover:bg-accent shrink-0 h-9 w-9 sm:h-10 sm:w-10" data-testid="button-back">
+                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </Link>
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg border-2 border-primary/20 bg-primary/10 flex items-center justify-center">
-                <span className="text-lg font-bold text-primary">PA</span>
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg border-2 border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
+                <span className="text-sm sm:text-lg font-bold text-primary">PA</span>
               </div>
-              <div>
-                <h1 className="text-lg font-semibold text-foreground tracking-tight">PashuAI</h1>
+              <div className="min-w-0">
+                <h1 className="text-base sm:text-lg font-semibold text-foreground tracking-tight truncate">PashuAI</h1>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5">
                     <span className="relative flex h-2 w-2">
@@ -95,7 +95,7 @@ export default function Chat() {
             </div>
           </div>
           <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-            <SelectTrigger className="w-[140px] border-border/50" data-testid="select-language">
+            <SelectTrigger className="w-[100px] sm:w-[140px] border-border/50 shrink-0" data-testid="select-language">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -110,22 +110,22 @@ export default function Chat() {
       </header>
 
       <div className="flex-1 overflow-y-auto bg-background">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 pb-4">
           {messages.length === 0 && !sendMessageMutation.isPending && (
-            <div className="text-center py-16">
-              <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-primary/20 bg-primary/5 mb-6">
-                <span className="text-3xl font-bold text-primary">PA</span>
+            <div className="text-center py-8 sm:py-12 lg:py-16">
+              <div className="inline-flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border-2 border-primary/20 bg-primary/5 mb-4 sm:mb-6">
+                <span className="text-2xl sm:text-3xl font-bold text-primary">PA</span>
               </div>
-              <h2 className="text-3xl font-semibold text-foreground mb-4 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-foreground mb-3 sm:mb-4 tracking-tight px-4">
                 Welcome to PashuAI
               </h2>
-              <p className="text-muted-foreground max-w-xl mx-auto text-base leading-relaxed">
+              <p className="text-muted-foreground max-w-xl mx-auto text-sm sm:text-base leading-relaxed px-4">
                 Your AI agricultural assistant. Ask me about crop management, livestock care, disease detection, or market prices. I'm here to help you make informed farming decisions.
               </p>
             </div>
           )}
 
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -133,23 +133,23 @@ export default function Chat() {
                 data-testid={`message-${message.role}`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl px-5 py-3.5 ${
+                  className={`max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 sm:px-5 py-3 sm:py-3.5 ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted/80 border border-border/50"
                   }`}
                 >
-                  <p className="text-[15px] leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                  <p className="text-sm sm:text-[15px] leading-relaxed whitespace-pre-wrap break-words">{message.content}</p>
                 </div>
               </div>
             ))}
 
             {sendMessageMutation.isPending && (
               <div className="flex justify-start">
-                <div className="max-w-[85%] rounded-2xl px-5 py-3.5 bg-muted/80 border border-border/50">
+                <div className="max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 sm:px-5 py-3 sm:py-3.5 bg-muted/80 border border-border/50">
                   <div className="flex items-center gap-2.5">
                     <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                    <p className="text-[15px] text-muted-foreground">Analyzing your question...</p>
+                    <p className="text-sm sm:text-[15px] text-muted-foreground">Analyzing your question...</p>
                   </div>
                 </div>
               </div>
@@ -160,9 +160,9 @@ export default function Chat() {
         </div>
       </div>
 
-      <div className="border-t border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 py-5">
-          <div className="flex gap-3 items-end">
+      <div className="shrink-0 border-t border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 safe-area-bottom">
+        <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5">
+          <div className="flex gap-2 sm:gap-3 items-end">
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -173,17 +173,18 @@ export default function Chat() {
                 }
               }}
               placeholder="Ask me about crops, livestock, weather, or market prices..."
-              className="resize-none min-h-[56px] rounded-xl border-border/50 focus-visible:ring-primary/20"
+              className="resize-none min-h-[48px] sm:min-h-[56px] rounded-xl border-border/50 focus-visible:ring-primary/20 text-sm sm:text-base"
+              rows={1}
               data-testid="input-message"
             />
             <Button
               onClick={handleSend}
               disabled={!input.trim() || sendMessageMutation.isPending}
               size="icon"
-              className="h-[56px] w-[56px] rounded-xl"
+              className="h-[48px] w-[48px] sm:h-[56px] sm:w-[56px] rounded-xl shrink-0"
               data-testid="button-send"
             >
-              <Send className="h-5 w-5" />
+              <Send className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
           </div>
         </div>
