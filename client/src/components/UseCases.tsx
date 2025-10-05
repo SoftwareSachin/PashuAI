@@ -56,10 +56,11 @@ export function UseCases() {
               <h3 className="text-2xl font-semibold text-foreground mb-3">{useCase.title}</h3>
               <p className="text-muted-foreground mb-6 leading-relaxed">{useCase.description}</p>
               <div className="flex flex-wrap gap-2">
-                {useCase.features.map((feature) => (
+                {useCase.features.map((feature, idx) => (
                   <span
                     key={feature}
                     className="text-sm px-3 py-1 bg-muted text-foreground rounded-md border border-border font-medium"
+                    data-testid={`feature-${useCase.testId}-${idx}`}
                   >
                     {feature}
                   </span>

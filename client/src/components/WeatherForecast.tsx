@@ -43,7 +43,7 @@ export function WeatherForecast() {
               data-testid="input-location"
             />
           </div>
-          <Button onClick={handleSearch} data-testid="button-search-weather">
+          <Button onClick={handleSearch} disabled={isLoading} data-testid="button-search-weather">
             <MapPin className="h-4 w-4 mr-2" />
             Search
           </Button>
@@ -68,7 +68,7 @@ export function WeatherForecast() {
                     {weather.condition}
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    Humidity: {weather.humidity}% • Wind: {weather.windSpeed} km/h
+                    Humidity: <span data-testid="text-humidity">{weather.humidity}%</span> • Wind: <span data-testid="text-wind-speed">{weather.windSpeed} km/h</span>
                   </div>
                 </div>
               </div>

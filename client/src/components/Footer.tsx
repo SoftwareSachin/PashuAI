@@ -13,27 +13,27 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-3">Product</h4>
             <ul className="space-y-2">
-              <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a></li>
-              <li><a href="#models" className="text-sm text-muted-foreground hover:text-foreground transition-colors">AI Models</a></li>
-              <li><a href="#use-cases" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Use Cases</a></li>
+              <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="footer-link-features">Features</a></li>
+              <li><a href="#models" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="footer-link-models">AI Models</a></li>
+              <li><a href="#use-cases" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="footer-link-use-cases">Use Cases</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold text-foreground mb-3">Resources</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Documentation</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">API</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Support</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="footer-link-docs">Documentation</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="footer-link-api">API</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="footer-link-support">Support</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold text-foreground mb-3">Company</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="footer-link-about">About</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="footer-link-contact">Contact</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="footer-link-privacy">Privacy</a></li>
             </ul>
           </div>
         </div>

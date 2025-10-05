@@ -53,13 +53,13 @@ export function MarketPrices() {
                     className={index % 2 === 0 ? "bg-background" : "bg-card"}
                     data-testid={`price-row-${price.id}`}
                   >
-                    <td className="px-6 py-4 text-sm text-foreground font-medium">{price.commodity}</td>
-                    <td className="px-6 py-4 text-sm text-foreground font-mono">
+                    <td className="px-6 py-4 text-sm text-foreground font-medium" data-testid={`commodity-${price.id}`}>{price.commodity}</td>
+                    <td className="px-6 py-4 text-sm text-foreground font-mono" data-testid={`price-${price.id}`}>
                       ₹{price.price.toLocaleString()}/{price.unit}
                     </td>
-                    <td className="px-6 py-4 text-sm text-muted-foreground">{price.market}</td>
+                    <td className="px-6 py-4 text-sm text-muted-foreground" data-testid={`market-${price.id}`}>{price.market}</td>
                     <td className="px-6 py-4 text-sm">
-                      <div className={`flex items-center gap-1 ${price.change >= 0 ? "text-green-600" : "text-red-600"}`}>
+                      <div className={`flex items-center gap-1 ${price.change >= 0 ? "text-green-600" : "text-red-600"}`} data-testid={`change-${price.id}`}>
                         {price.change >= 0 ? (
                           <TrendingUp className="h-4 w-4" />
                         ) : (

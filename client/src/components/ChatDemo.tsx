@@ -22,7 +22,7 @@ export function ChatDemo() {
             </p>
 
             <div className="space-y-4 mb-6">
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3" data-testid="feature-multilingual">
                 <Globe className="h-5 w-5 text-primary mt-0.5" />
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Multilingual Support</h4>
@@ -32,7 +32,7 @@ export function ChatDemo() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3" data-testid="feature-contextual">
                 <MessageSquare className="h-5 w-5 text-primary mt-0.5" />
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Contextual Understanding</h4>
@@ -42,7 +42,7 @@ export function ChatDemo() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3" data-testid="feature-realtime">
                 <Zap className="h-5 w-5 text-primary mt-0.5" />
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Real-time Responses</h4>

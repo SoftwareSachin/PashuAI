@@ -48,25 +48,25 @@ export function CropRecommendations() {
                           style={{ width: `${crop.profitPotential}%` }}
                         />
                       </div>
-                      <span className="text-sm font-semibold text-foreground">{crop.profitPotential}%</span>
+                      <span className="text-sm font-semibold text-foreground" data-testid={`text-profit-${crop.id}`}>{crop.profitPotential}%</span>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Market Demand:</span>
-                    <Badge variant="outline" className={getDemandColor(crop.marketDemand)}>
+                    <Badge variant="outline" className={getDemandColor(crop.marketDemand)} data-testid={`badge-demand-${crop.id}`}>
                       {crop.marketDemand}
                     </Badge>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Season:</span>
-                    <span className="text-sm font-medium text-foreground">{crop.season}</span>
+                    <span className="text-sm font-medium text-foreground" data-testid={`text-season-${crop.id}`}>{crop.season}</span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Investment:</span>
-                    <span className="text-sm font-medium text-foreground">{crop.investment}</span>
+                    <span className="text-sm font-medium text-foreground" data-testid={`text-investment-${crop.id}`}>{crop.investment}</span>
                   </div>
                 </div>
 

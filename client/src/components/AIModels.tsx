@@ -78,10 +78,10 @@ export function AIModels() {
               <p className="text-sm text-muted-foreground mb-6 leading-relaxed">{model.description}</p>
 
               <div className="space-y-2 mb-6">
-                {model.features.map((feature) => (
+                {model.features.map((feature, idx) => (
                   <div key={feature.label} className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">{feature.label}:</span>
-                    <span className="font-medium text-foreground">{feature.value}</span>
+                    <span className="font-medium text-foreground" data-testid={`model-feature-${model.size}-${idx}`}>{feature.value}</span>
                   </div>
                 ))}
               </div>
@@ -96,14 +96,14 @@ export function AIModels() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { title: "Dhenu2 Vision", subtitle: "Computer vision for disease detection", status: "Coming Soon" },
-            { title: "Dhenu2 CRA", subtitle: "Climate Resilient Agriculture specialist", status: "In Development" },
-            { title: "Dhenu2 US", subtitle: "Adapted for US agricultural practices", status: "Planned" },
+            { title: "Dhenu2 Vision", subtitle: "Computer vision for disease detection", status: "Coming Soon", testId: "upcoming-vision" },
+            { title: "Dhenu2 CRA", subtitle: "Climate Resilient Agriculture specialist", status: "In Development", testId: "upcoming-cra" },
+            { title: "Dhenu2 US", subtitle: "Adapted for US agricultural practices", status: "Planned", testId: "upcoming-us" },
           ].map((upcoming) => (
-            <Card key={upcoming.title} className="p-6 bg-muted border-dashed">
+            <Card key={upcoming.title} className="p-6 bg-muted border-dashed" data-testid={upcoming.testId}>
               <h4 className="font-semibold text-foreground mb-2">{upcoming.title}</h4>
               <p className="text-sm text-muted-foreground mb-3">{upcoming.subtitle}</p>
-              <Badge variant="outline">{upcoming.status}</Badge>
+              <Badge variant="outline" data-testid={`badge-${upcoming.testId}`}>{upcoming.status}</Badge>
             </Card>
           ))}
         </div>

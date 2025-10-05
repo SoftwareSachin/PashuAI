@@ -70,10 +70,11 @@ export function Features() {
               <h3 className="text-xl font-semibold text-foreground mb-3">{feature.title}</h3>
               <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{feature.description}</p>
               <div className="flex flex-wrap gap-2">
-                {feature.tags.map((tag) => (
+                {feature.tags.map((tag, idx) => (
                   <span
                     key={tag}
                     className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded-md border border-border"
+                    data-testid={`tag-${feature.testId}-${idx}`}
                   >
                     {tag}
                   </span>

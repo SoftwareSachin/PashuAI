@@ -12,20 +12,20 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/">
-              <a className="text-xl font-bold text-foreground" data-testid="link-home">
+              <span className="text-xl font-bold text-foreground cursor-pointer" data-testid="link-home">
                 PashuAI
-              </a>
+              </span>
             </Link>
           </div>
 
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-features">
               Features
             </a>
-            <a href="#models" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#models" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-models">
               AI Models
             </a>
-            <a href="#use-cases" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#use-cases" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-use-cases">
               Use Cases
             </a>
           </nav>
@@ -50,13 +50,13 @@ export function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border">
             <nav className="flex flex-col gap-4">
-              <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-features-mobile">
                 Features
               </a>
-              <a href="#models" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a href="#models" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-models-mobile">
                 AI Models
               </a>
-              <a href="#use-cases" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a href="#use-cases" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-use-cases-mobile">
                 Use Cases
               </a>
               <Link href="/chat">
