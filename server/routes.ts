@@ -1,9 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
-import { generateAgriculturalAdvice } from "./gemini";
-import { insertConversationSchema, insertMessageSchema } from "@shared/schema";
-import type { WeatherData, MarketPrice, CropRecommendation } from "@shared/schema";
+import { storage } from "./storage.js";
+import { generateAgriculturalAdvice } from "./gemini.js";
+import { insertConversationSchema, insertMessageSchema } from "../shared/schema.js";
+import type { WeatherData, MarketPrice, CropRecommendation } from "../shared/schema.js";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Conversation endpoints
