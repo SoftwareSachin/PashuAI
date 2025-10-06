@@ -4,7 +4,7 @@ import { storage } from "../server/storage.js";
 import { generateAgriculturalAdvice, analyzeAgriculturalImage } from "../server/gemini.js";
 import { insertConversationSchema, insertMessageSchema } from "../shared/schema.js";
 import type { WeatherData, MarketPrice, CropRecommendation } from "../shared/schema.js";
-import { authMiddleware, generateToken, hashPassword, comparePassword } from "../server/auth.js";
+import { authMiddleware, adminMiddleware, generateToken, hashPassword, comparePassword } from "../server/auth.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -167,6 +167,64 @@ app.get("/api/auth/me", authMiddleware, async (req, res) => {
     res.json(userWithoutPassword);
   } catch (error: any) {
     console.error("Get user error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Admin endpoints
+app.get("/api/admin/users", adminMiddleware, async (req, res) => {
+  try {
+    const users = await storage.getAllUsers();
+    const usersWithoutPasswords = users.map(({ passwordHash, ...user }) => user);
+    res.json(usersWithoutPasswords);
+  } catch (error: any) {
+    console.error("Get all users error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/admin/conversations", adminMiddleware, async (req, res) => {
+  try {
+    const conversations = await storage.getAllConversationsWithUser();
+    const conversationsWithoutPasswords = conversations.map(conv => ({
+      ...conv,
+      user: conv.user ? (() => {
+        const { passwordHash, ...userWithoutPassword } = conv.user;
+        return userWithoutPassword;
+      })() : null
+    }));
+    res.json(conversationsWithoutPasswords);
+  } catch (error: any) {
+    console.error("Get all conversations error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/admin/messages", adminMiddleware, async (req, res) => {
+  try {
+    const messages = await storage.getAllMessages();
+    res.json(messages);
+  } catch (error: any) {
+    console.error("Get all messages error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/admin/stats", adminMiddleware, async (req, res) => {
+  try {
+    const [userStats, messageStats, conversations] = await Promise.all([
+      storage.getUserStats(),
+      storage.getMessageStats(),
+      storage.getAllConversationsWithUser()
+    ]);
+
+    res.json({
+      users: userStats,
+      messages: messageStats,
+      totalConversations: conversations.length,
+    });
+  } catch (error: any) {
+    console.error("Get stats error:", error);
     res.status(500).json({ error: error.message });
   }
 });

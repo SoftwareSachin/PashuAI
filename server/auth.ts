@@ -67,3 +67,27 @@ export function optionalAuthMiddleware(req: Request, res: Response, next: NextFu
   }
   next();
 }
+
+export async function adminMiddleware(req: Request, res: Response, next: NextFunction) {
+  try {
+    const token = req.cookies?.token || req.headers.authorization?.replace("Bearer ", "");
+
+    if (!token) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    const payload = verifyToken(token);
+    req.userId = payload.userId;
+
+    const { storage } = await import("./storage.js");
+    const user = await storage.getUserById(payload.userId);
+
+    if (!user || user.isAdmin !== 1) {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: "Invalid or expired token" });
+  }
+}
