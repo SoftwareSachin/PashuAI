@@ -4,6 +4,8 @@ import { storage } from "../server/storage.js";
 import { generateAgriculturalAdvice, analyzeAgriculturalImage } from "../server/gemini.js";
 import { insertConversationSchema, insertMessageSchema } from "../shared/schema.js";
 import type { WeatherData, MarketPrice, CropRecommendation } from "../shared/schema.js";
+import { authMiddleware, generateToken, hashPassword, comparePassword } from "../server/auth.js";
+import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
@@ -25,6 +27,7 @@ const upload = multer({
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // Logging middleware for API requests
 app.use((req, res, next) => {
@@ -58,11 +61,124 @@ app.use((req, res, next) => {
 });
 
 // API Routes - copied from server/routes.ts for Vercel compatibility
+// Auth endpoints
+app.post("/api/auth/register", async (req, res) => {
+  try {
+    const { email, phone, password, name } = req.body;
+
+    if (!email && !phone) {
+      return res.status(400).json({ error: "Email or phone number is required" });
+    }
+
+    if (!password || password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters" });
+    }
+
+    const existingUser = await storage.getUserByEmailOrPhone(email || phone);
+    if (existingUser) {
+      return res.status(400).json({ error: "User already exists with this email or phone number" });
+    }
+
+    const passwordHash = await hashPassword(password);
+
+    const user = await storage.createUser({
+      email: email || undefined,
+      phone: phone || undefined,
+      passwordHash,
+      name: name || undefined,
+    });
+
+    const token = generateToken({
+      userId: user.id,
+      email: user.email || undefined,
+      phone: user.phone || undefined,
+    });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    const { passwordHash: _, ...userWithoutPassword } = user;
+    res.json({ user: userWithoutPassword, token });
+  } catch (error: any) {
+    console.error("Registration error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/auth/login", async (req, res) => {
+  try {
+    const { emailOrPhone, password } = req.body;
+
+    if (!emailOrPhone || !password) {
+      return res.status(400).json({ error: "Email/phone and password are required" });
+    }
+
+    const user = await storage.getUserByEmailOrPhone(emailOrPhone);
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const isPasswordValid = await comparePassword(password, user.passwordHash);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const token = generateToken({
+      userId: user.id,
+      email: user.email || undefined,
+      phone: user.phone || undefined,
+    });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    const { passwordHash: _, ...userWithoutPassword } = user;
+    res.json({ user: userWithoutPassword, token });
+  } catch (error: any) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/auth/logout", (req, res) => {
+  res.clearCookie("token");
+  res.json({ message: "Logged out successfully" });
+});
+
+app.get("/api/auth/me", authMiddleware, async (req, res) => {
+  try {
+    const user = await storage.getUserById(req.userId!);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const { passwordHash: _, ...userWithoutPassword } = user;
+    res.json(userWithoutPassword);
+  } catch (error: any) {
+    console.error("Get user error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Conversation endpoints
-app.post("/api/conversations", async (req, res) => {
+app.post("/api/conversations", authMiddleware, async (req, res) => {
   try {
     const data = insertConversationSchema.parse(req.body);
-    const conversation = await storage.createConversation(data);
+    const conversation = await storage.createConversation({
+      ...data,
+      userId: req.userId,
+    });
     res.json(conversation);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
@@ -70,9 +186,19 @@ app.post("/api/conversations", async (req, res) => {
 });
 
 // Get messages for a conversation
-app.get("/api/messages/:conversationId", async (req, res) => {
+app.get("/api/messages/:conversationId", authMiddleware, async (req, res) => {
   try {
     const { conversationId } = req.params;
+    
+    const conversation = await storage.getConversation(conversationId);
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found" });
+    }
+
+    if (conversation.userId !== req.userId) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
     const messages = await storage.getMessagesByConversation(conversationId);
     res.json(messages);
   } catch (error: any) {
@@ -81,7 +207,7 @@ app.get("/api/messages/:conversationId", async (req, res) => {
 });
 
 // Chat endpoint with Gemini
-app.post("/api/chat", async (req, res) => {
+app.post("/api/chat", authMiddleware, async (req, res) => {
   try {
     const { conversationId, message, language = "en" } = req.body;
 
@@ -89,9 +215,19 @@ app.post("/api/chat", async (req, res) => {
       return res.status(400).json({ error: "conversationId and message are required" });
     }
 
+    const conversation = await storage.getConversation(conversationId);
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found" });
+    }
+
+    if (conversation.userId !== req.userId) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
     // Save user message
     await storage.createMessage({
       conversationId,
+      userId: req.userId,
       role: "user",
       content: message,
     });
@@ -109,6 +245,7 @@ app.post("/api/chat", async (req, res) => {
     // Save AI message
     const assistantMessage = await storage.createMessage({
       conversationId,
+      userId: req.userId,
       role: "assistant",
       content: aiResponse,
     });
@@ -121,7 +258,7 @@ app.post("/api/chat", async (req, res) => {
 });
 
 // Image analysis endpoint
-app.post("/api/analyze-image", (req, res, next) => {
+app.post("/api/analyze-image", authMiddleware, (req, res, next) => {
   upload.single('image')(req, res, (err) => {
     if (err) {
       if (err instanceof multer.MulterError) {
@@ -146,12 +283,22 @@ app.post("/api/analyze-image", (req, res, next) => {
       return res.status(400).json({ error: "conversationId is required" });
     }
 
+    const conversation = await storage.getConversation(conversationId);
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found" });
+    }
+
+    if (conversation.userId !== req.userId) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
     const imageBase64 = req.file.buffer.toString('base64');
     const mimeType = req.file.mimetype;
 
     const userMessage = message || "Uploaded an image for analysis";
     await storage.createMessage({
       conversationId,
+      userId: req.userId,
       role: "user",
       content: userMessage,
     });
@@ -160,6 +307,7 @@ app.post("/api/analyze-image", (req, res, next) => {
 
     const assistantMessage = await storage.createMessage({
       conversationId,
+      userId: req.userId,
       role: "assistant",
       content: aiResponse,
     });
