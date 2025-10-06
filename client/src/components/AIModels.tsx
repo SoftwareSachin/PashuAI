@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Cpu, Zap, Smartphone, ExternalLink } from "lucide-react";
+import pashuIcon from "@assets/image_1759746255911.png";
 
 export function AIModels() {
   const models = [
@@ -74,7 +75,14 @@ export function AIModels() {
               </div>
 
               <div className="text-3xl xs:text-4xl font-bold text-foreground mb-1.5 xs:mb-2">{model.size}</div>
-              <h3 className="text-base xs:text-lg font-semibold text-foreground mb-2 xs:mb-3 leading-tight">{model.name}</h3>
+              <div className="flex items-center gap-2 mb-2 xs:mb-3">
+                <img 
+                  src={pashuIcon} 
+                  alt="Pashu AI" 
+                  className="h-5 w-5 xs:h-6 xs:w-6 object-contain opacity-80"
+                />
+                <h3 className="text-base xs:text-lg font-semibold text-foreground leading-tight">{model.name}</h3>
+              </div>
               <p className="text-xs xs:text-sm text-muted-foreground mb-5 xs:mb-6 leading-relaxed">{model.description}</p>
 
               <div className="space-y-1.5 xs:space-y-2 mb-5 xs:mb-6">
@@ -101,7 +109,14 @@ export function AIModels() {
             { title: "Pashu AI US", subtitle: "Adapted for US agricultural practices", status: "Planned", testId: "upcoming-us" },
           ].map((upcoming) => (
             <Card key={upcoming.title} className="p-5 xs:p-6 bg-muted border-dashed" data-testid={upcoming.testId}>
-              <h4 className="text-sm xs:text-base font-semibold text-foreground mb-1.5 xs:mb-2 leading-tight">{upcoming.title}</h4>
+              <div className="flex items-center gap-2 mb-1.5 xs:mb-2">
+                <img 
+                  src={pashuIcon} 
+                  alt="Pashu AI" 
+                  className="h-4 w-4 xs:h-5 xs:w-5 object-contain opacity-70"
+                />
+                <h4 className="text-sm xs:text-base font-semibold text-foreground leading-tight">{upcoming.title}</h4>
+              </div>
               <p className="text-xs xs:text-sm text-muted-foreground mb-2.5 xs:mb-3 leading-relaxed">{upcoming.subtitle}</p>
               <Badge variant="outline" className="text-[10px] xs:text-xs" data-testid={`badge-${upcoming.testId}`}>{upcoming.status}</Badge>
             </Card>
