@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import { queryClient } from "@/lib/queryClient";
 import logoImage from "@assets/Untitled_1759746112310.png";
 
 const signupSchema = z.object({
@@ -68,6 +69,9 @@ export default function Signup() {
         title: "Success",
         description: "Account created successfully!",
       });
+
+      // Invalidate auth query to update authentication state
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
 
       setLocation("/chat");
     } catch (error: any) {
