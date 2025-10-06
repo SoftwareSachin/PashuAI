@@ -10,8 +10,16 @@ import { Users, MessageSquare, TrendingUp, LogOut, Shield } from "lucide-react";
 import { format } from "date-fns";
 
 export default function AdminDashboard() {
-  const { user, logout } = useAuth();
+  const { user, logout, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
 
   if (!user?.isAdmin) {
     setLocation("/admin/login");
