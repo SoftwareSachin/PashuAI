@@ -75,11 +75,11 @@ export function AIModels() {
               </div>
 
               <div className="text-3xl xs:text-4xl font-bold text-foreground mb-1.5 xs:mb-2">{model.size}</div>
-              <div className="flex items-center gap-2 mb-2 xs:mb-3">
+              <div className="flex items-center gap-3 mb-2 xs:mb-3">
                 <img 
                   src={pashuIcon} 
                   alt="Pashu AI" 
-                  className="h-5 w-5 xs:h-6 xs:w-6 object-contain opacity-80"
+                  className="h-10 w-10 xs:h-12 xs:w-12 object-contain opacity-80"
                 />
                 <h3 className="text-base xs:text-lg font-semibold text-foreground leading-tight">{model.name}</h3>
               </div>
@@ -113,7 +113,7 @@ export function AIModels() {
                 <img 
                   src={pashuIcon} 
                   alt="Pashu AI" 
-                  className="h-4 w-4 xs:h-5 xs:w-5 object-contain opacity-70"
+                  className="h-8 w-8 xs:h-10 xs:w-10 object-contain opacity-70"
                 />
                 <h4 className="text-sm xs:text-base font-semibold text-foreground leading-tight">{upcoming.title}</h4>
               </div>
