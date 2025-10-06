@@ -10,14 +10,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-border/40 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
             <Link href="/">
               <div className="flex items-center cursor-pointer group" data-testid="link-home">
                 <img 
                   src={logoImage} 
                   alt="Pashu AI" 
-                  className="h-20 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                  className="h-24 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
             </Link>
