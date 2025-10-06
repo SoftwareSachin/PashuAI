@@ -17,7 +17,7 @@ export function Header() {
                 <img 
                   src={logoImage} 
                   alt="Pashu AI" 
-                  className="h-24 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                  className="h-28 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
             </Link>
