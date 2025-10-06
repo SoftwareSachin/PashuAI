@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { Menu, X, Sprout, Sparkles } from "lucide-react";
+import { Menu, X, Sparkles } from "lucide-react";
 import { useState } from "react";
+import logoImage from "@assets/image_1759745369492.png";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -12,16 +13,12 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
             <Link href="/">
-              <div className="flex items-center gap-2 cursor-pointer group" data-testid="link-home">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-primary/20 rounded-lg blur-md group-hover:blur-lg transition-all"></div>
-                  <div className="relative bg-gradient-to-br from-primary to-primary/80 p-2 rounded-lg group-hover:scale-110 transition-transform">
-                    <Sprout className="h-5 w-5 text-primary-foreground" />
-                  </div>
-                </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent group-hover:from-primary group-hover:to-primary/70 transition-all">
-                  PashuAI
-                </span>
+              <div className="flex items-center cursor-pointer group" data-testid="link-home">
+                <img 
+                  src={logoImage} 
+                  alt="Pashu AI" 
+                  className="h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
             </Link>
           </div>
