@@ -79,9 +79,9 @@ export function AIModels() {
                 <img 
                   src={pashuIcon} 
                   alt="Pashu AI" 
-                  className="h-14 w-14 xs:h-16 xs:w-16 object-contain opacity-80 flex-shrink-0"
+                  className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 object-contain opacity-80 flex-shrink-0"
                 />
-                <h3 className="text-base xs:text-lg font-semibold text-foreground leading-tight">{model.name}</h3>
+                <h3 className="text-sm xs:text-base sm:text-lg font-semibold text-foreground leading-tight">{model.name}</h3>
               </div>
               <p className="text-xs xs:text-sm text-muted-foreground mb-5 xs:mb-6 leading-relaxed">{model.description}</p>
 
@@ -113,9 +113,9 @@ export function AIModels() {
                 <img 
                   src={pashuIcon} 
                   alt="Pashu AI" 
-                  className="h-12 w-12 xs:h-14 xs:w-14 object-contain opacity-70 flex-shrink-0"
+                  className="h-8 w-8 xs:h-10 xs:w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain opacity-70 flex-shrink-0"
                 />
-                <h4 className="text-sm xs:text-base font-semibold text-foreground leading-tight">{upcoming.title}</h4>
+                <h4 className="text-xs xs:text-sm sm:text-base font-semibold text-foreground leading-tight">{upcoming.title}</h4>
               </div>
               <p className="text-xs xs:text-sm text-muted-foreground mb-2.5 xs:mb-3 leading-relaxed">{upcoming.subtitle}</p>
               <Badge variant="outline" className="text-[10px] xs:text-xs" data-testid={`badge-${upcoming.testId}`}>{upcoming.status}</Badge>
