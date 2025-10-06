@@ -2,7 +2,11 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import type { Request, Response, NextFunction } from "express";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is required");
+}
+
+const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = "7d";
 
 export interface JWTPayload {

@@ -150,6 +150,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/messages/:conversationId", authMiddleware, async (req, res) => {
     try {
       const { conversationId } = req.params;
+      
+      const conversation = await storage.getConversation(conversationId);
+      if (!conversation) {
+        return res.status(404).json({ error: "Conversation not found" });
+      }
+
+      if (conversation.userId !== req.userId) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
       const messages = await storage.getMessagesByConversation(conversationId);
       res.json(messages);
     } catch (error: any) {
@@ -164,6 +174,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       if (!conversationId || !message) {
         return res.status(400).json({ error: "conversationId and message are required" });
+      }
+
+      const conversation = await storage.getConversation(conversationId);
+      if (!conversation) {
+        return res.status(404).json({ error: "Conversation not found" });
+      }
+
+      if (conversation.userId !== req.userId) {
+        return res.status(403).json({ error: "Access denied" });
       }
 
       // Save user message
@@ -223,6 +242,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       if (!conversationId) {
         return res.status(400).json({ error: "conversationId is required" });
+      }
+
+      const conversation = await storage.getConversation(conversationId);
+      if (!conversation) {
+        return res.status(404).json({ error: "Conversation not found" });
+      }
+
+      if (conversation.userId !== req.userId) {
+        return res.status(403).json({ error: "Access denied" });
       }
 
       // Convert buffer to base64
