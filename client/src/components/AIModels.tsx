@@ -8,7 +8,7 @@ export function AIModels() {
     {
       badge: "PRODUCTION",
       size: "8B",
-      name: "Dhenu2 India 8B",
+      name: "Pashu AI India 8B",
       description: "Most powerful model for comprehensive advisory applications supporting farmers and agri-businesses",
       features: [
         { label: "Based on", value: "Llama 3.1" },
@@ -21,7 +21,7 @@ export function AIModels() {
     {
       badge: "BALANCED",
       size: "3B",
-      name: "Dhenu2 India 3B",
+      name: "Pashu AI India 3B",
       description: "Balanced performance for conversational applications requiring knowledge and responsiveness",
       features: [
         { label: "Based on", value: "Llama 3.2" },
@@ -34,7 +34,7 @@ export function AIModels() {
     {
       badge: "MOBILE",
       size: "1B",
-      name: "Dhenu2 India 1B",
+      name: "Pashu AI India 1B",
       description: "Lightweight model for on-device deployment on smartphones and resource-constrained devices",
       features: [
         { label: "Based on", value: "Llama 3.2" },
@@ -50,7 +50,7 @@ export function AIModels() {
     <section id="models" className="py-12 xs:py-14 sm:py-16 md:py-20 lg:py-24 bg-card border-y border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 xs:mb-10 sm:mb-12">
-          <Badge variant="outline" className="mb-3 xs:mb-4 text-xs xs:text-sm">Dhenu AI Models</Badge>
+          <Badge variant="outline" className="mb-3 xs:mb-4 text-xs xs:text-sm">Pashu AI Models</Badge>
           <h2 className="text-2xl xs:text-3xl sm:text-3xl md:text-4xl font-semibold text-foreground mb-3 xs:mb-4 px-2">
             Agricultural Language Models
           </h2>
@@ -96,9 +96,9 @@ export function AIModels() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
           {[
-            { title: "Dhenu2 Vision", subtitle: "Computer vision for disease detection", status: "Coming Soon", testId: "upcoming-vision" },
-            { title: "Dhenu2 CRA", subtitle: "Climate Resilient Agriculture specialist", status: "In Development", testId: "upcoming-cra" },
-            { title: "Dhenu2 US", subtitle: "Adapted for US agricultural practices", status: "Planned", testId: "upcoming-us" },
+            { title: "Pashu AI Vision", subtitle: "Computer vision for disease detection", status: "Coming Soon", testId: "upcoming-vision" },
+            { title: "Pashu AI CRA", subtitle: "Climate Resilient Agriculture specialist", status: "In Development", testId: "upcoming-cra" },
+            { title: "Pashu AI US", subtitle: "Adapted for US agricultural practices", status: "Planned", testId: "upcoming-us" },
           ].map((upcoming) => (
             <Card key={upcoming.title} className="p-5 xs:p-6 bg-muted border-dashed" data-testid={upcoming.testId}>
               <h4 className="text-sm xs:text-base font-semibold text-foreground mb-1.5 xs:mb-2 leading-tight">{upcoming.title}</h4>

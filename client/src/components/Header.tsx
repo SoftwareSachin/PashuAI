@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { Menu, X, Sparkles } from "lucide-react";
 import { useState } from "react";
-import logoImage from "@assets/image_1759745369492.png";
+import logoImage from "@assets/Untitled_1759746112310.png";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

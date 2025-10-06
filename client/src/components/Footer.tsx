@@ -1,4 +1,4 @@
-import logoImage from "@assets/image_1759745369492.png";
+import logoImage from "@assets/Untitled_1759746112310.png";
 
 export function Footer() {
   return (
