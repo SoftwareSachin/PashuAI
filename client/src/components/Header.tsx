@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X, Sparkles, LogOut, User } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/hooks/use-auth";
 import logoImage from "@assets/Untitled_1759746112310.png";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-border/40 shadow-sm">
@@ -51,17 +53,48 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/chat">
-              <Button 
-                variant="default" 
-                className="relative group overflow-hidden shadow-md hover:shadow-lg transition-all" 
-                data-testid="button-launch-copilot"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
-                <Sparkles className="h-4 w-4 mr-2" />
-                <span className="relative">Launch Copilot</span>
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                {user && (
+                  <span className="text-sm text-muted-foreground flex items-center gap-2" data-testid="text-username">
+                    <User className="h-4 w-4" />
+                    {user.name || user.email || user.phone}
+                  </span>
+                )}
+                <Link href="/chat">
+                  <Button 
+                    variant="default" 
+                    className="relative group overflow-hidden shadow-md hover:shadow-lg transition-all" 
+                    data-testid="button-launch-copilot"
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    <span className="relative">Launch Copilot</span>
+                  </Button>
+                </Link>
+                <Button 
+                  variant="outline" 
+                  onClick={logout}
+                  data-testid="button-logout"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link href="/login">
+                  <Button variant="outline" data-testid="button-login-header">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button variant="default" data-testid="button-signup-header">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           <button
@@ -105,17 +138,62 @@ export function Header() {
               >
                 Use Cases
               </a>
-              <Link href="/chat">
-                <Button 
-                  variant="default" 
-                  className="w-full mt-2 shadow-md" 
-                  data-testid="button-launch-copilot-mobile"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  Launch Copilot
-                </Button>
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  {user && (
+                    <div className="px-4 py-3 text-sm text-muted-foreground flex items-center gap-2" data-testid="text-username-mobile">
+                      <User className="h-4 w-4" />
+                      {user.name || user.email || user.phone}
+                    </div>
+                  )}
+                  <Link href="/chat">
+                    <Button 
+                      variant="default" 
+                      className="w-full mt-2 shadow-md" 
+                      data-testid="button-launch-copilot-mobile"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Sparkles className="h-4 w-4 mr-2" />
+                      Launch Copilot
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="outline" 
+                    className="w-full mt-2" 
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    data-testid="button-logout-mobile"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <Button 
+                      variant="outline" 
+                      className="w-full mt-2" 
+                      onClick={() => setMobileMenuOpen(false)}
+                      data-testid="button-login-mobile"
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link href="/signup">
+                    <Button 
+                      variant="default" 
+                      className="w-full mt-2" 
+                      onClick={() => setMobileMenuOpen(false)}
+                      data-testid="button-signup-mobile"
+                    >
+                      Sign Up
+                    </Button>
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
         )}
