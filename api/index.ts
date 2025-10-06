@@ -5,6 +5,7 @@ import { generateAgriculturalAdvice, analyzeAgriculturalImage } from "../server/
 import { insertConversationSchema, insertMessageSchema } from "../shared/schema.js";
 import type { WeatherData, MarketPrice, CropRecommendation } from "../shared/schema.js";
 import { authMiddleware, adminMiddleware, generateToken, hashPassword, comparePassword } from "../server/auth.js";
+import { initializeDefaultAdmin } from "../server/init-admin.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -59,6 +60,9 @@ app.use((req, res, next) => {
 
   next();
 });
+
+// Initialize default admin user on cold start
+initializeDefaultAdmin().catch(err => console.error('Failed to initialize admin:', err));
 
 // API Routes - copied from server/routes.ts for Vercel compatibility
 // Auth endpoints
