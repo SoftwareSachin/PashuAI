@@ -24,7 +24,8 @@ Preferred communication style: Simple, everyday language.
 
 **Component-Based React Application**
 - **Routing:** Wouter for lightweight client-side routing
-- **Pages:** Home (landing/dashboard) and Chat (conversational interface)
+- **Pages:** Home (landing/dashboard), Login, Signup, and Chat (conversational interface)
+- **Protected Routes:** Chat page requires authentication, redirects to login if not authenticated
 - **Component Library:** Shadcn/ui components providing a professional, agricultural-themed design system
 - **Styling:** Tailwind CSS with custom agricultural color palette (Forest Green, Deep Teal, Slate Gray)
 - **Design Philosophy:** Professional credibility through clean design, mobile-first for field use, high readability in bright conditions (no dark mode)
@@ -51,11 +52,21 @@ Preferred communication style: Simple, everyday language.
 - **Production Build:** ESBuild bundling for Node.js deployment
 
 **Key API Endpoints**
-- `POST /api/conversations` - Create new conversation sessions
-- `GET /api/messages/:conversationId` - Retrieve message history
-- `POST /api/chat` - Send messages and receive AI responses
-- `POST /api/analyze-image` - Upload and analyze agricultural images (NEW)
-- Frontend-only endpoints (not implemented): `/api/weather`, `/api/market-prices`, `/api/crops`
+
+**Authentication Endpoints:**
+- `POST /api/auth/register` - User registration (email/phone + password)
+- `POST /api/auth/login` - User login (returns JWT in cookie)
+- `POST /api/auth/logout` - User logout (clears cookie)
+- `GET /api/auth/me` - Get current user profile (protected)
+
+**Chat Endpoints (All Protected):**
+- `POST /api/conversations` - Create new conversation sessions (links to user)
+- `GET /api/messages/:conversationId` - Retrieve message history (ownership verified)
+- `POST /api/chat` - Send messages and receive AI responses (ownership verified)
+- `POST /api/analyze-image` - Upload and analyze agricultural images (ownership verified)
+
+**Frontend-only endpoints (not implemented):**
+- `/api/weather`, `/api/market-prices`, `/api/crops`
 
 **AI Integration Layer**
 - Google Gemini AI integration via `@google/genai` SDK
@@ -84,18 +95,6 @@ Preferred communication style: Simple, everyday language.
 
 ### Data Storage Solutions
 
-**PostgreSQL Database Schema**
-
-**Conversations Table:**
-- Primary entity for chat sessions
-- Fields: id (UUID), language (text), createdAt (timestamp)
-- Purpose: Track individual user sessions with language preference
-
-**Messages Table:**
-- Stores conversation message history
-- Fields: id (UUID), conversationId (FK), role (user/assistant), content (text), createdAt (timestamp)
-- Relationship: Many messages belong to one conversation (cascade delete)
-- Purpose: Maintain full conversation context for AI responses
 
 **Frontend-Only Types (No Persistence):**
 - WeatherData, MarketPrice, CropRecommendation defined as TypeScript interfaces
@@ -109,15 +108,26 @@ Preferred communication style: Simple, everyday language.
 
 ### Authentication and Authorization
 
-**Current State:** No authentication implemented
-- Application is open-access for MVP/demo purposes
-- All conversations are anonymous
-- No user accounts or sessions
+**Current State:** JWT-based authentication fully implemented
+- User registration with email OR phone number + password (no OTP/2FA)
+- Simple login using email/phone + password
+- JWT tokens stored in secure httpOnly cookies
+- Protected chat routes - users must authenticate before accessing copilot
+- All conversations and messages linked to user accounts
 
-**Future Considerations:**
-- User authentication would be required for personalized farm data
-- Session management would enable multi-device access
-- Role-based access for enterprise vs. farmer features
+**Authentication Flow:**
+1. Users sign up with email OR phone + password (min 6 characters)
+2. Passwords hashed with bcryptjs (12 rounds)
+3. JWT tokens generated and stored in httpOnly cookies
+4. Protected routes verify JWT and user ownership
+5. Authorization checks prevent cross-user data access
+
+**Security Features:**
+- JWT_SECRET required from environment (no fallback)
+- Conversation ownership verification on all endpoints
+- 403 Forbidden for unauthorized access attempts
+- HTTP-only cookies prevent XSS attacks
+- Password hashing prevents credential exposure
 
 ### External Dependencies
 

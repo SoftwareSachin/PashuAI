@@ -64,16 +64,27 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserByEmailOrPhone(emailOrPhone: string): Promise<User | undefined> {
-    const [user] = await db
-      .select()
-      .from(users)
-      .where(
-        or(
-          eq(users.email, emailOrPhone),
-          eq(users.phone, emailOrPhone)
+    if (!emailOrPhone || emailOrPhone.trim() === '') {
+      return undefined;
+    }
+    
+    try {
+      const results = await db
+        .select()
+        .from(users)
+        .where(
+          or(
+            eq(users.email, emailOrPhone),
+            eq(users.phone, emailOrPhone)
+          )
         )
-      );
-    return user || undefined;
+        .limit(1);
+      
+      return results[0] || undefined;
+    } catch (error) {
+      console.error('Error in getUserByEmailOrPhone:', error);
+      return undefined;
+    }
   }
 
   async createConversation(insertConversation: InsertConversation): Promise<Conversation> {
