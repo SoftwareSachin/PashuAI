@@ -21,7 +21,7 @@ export function Hero() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32 flex items-center min-h-[500px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[800px]">
         <div className="text-center max-w-4xl mx-auto w-full">
           <Badge variant="secondary" className="mb-4 sm:mb-6 bg-white/90 dark:bg-black/70 backdrop-blur-sm border-white/20" data-testid="badge-farmers">
-            <img src={bullIcon} alt="" className="h-6 w-6 sm:h-7 sm:w-7 mr-1.5 object-contain flex-shrink-0" />
+            <img src={bullIcon} alt="" className="h-8 w-8 sm:h-10 sm:w-10 mr-1.5 object-contain flex-shrink-0" />
             Trusted by 100K+ Farmers
           </Badge>
 
