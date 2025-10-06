@@ -10,7 +10,7 @@ export function Footer() {
               <img 
                 src={logoImage} 
                 alt="Pashu AI" 
-                className="h-16 w-auto object-contain"
+                className="h-24 w-auto object-contain"
               />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
