@@ -10,6 +10,7 @@ export const users = pgTable("users", {
   phone: varchar("phone", { length: 20 }).unique(),
   passwordHash: text("password_hash").notNull(),
   name: varchar("name", { length: 255 }),
+  isAdmin: integer("is_admin").notNull().default(0),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

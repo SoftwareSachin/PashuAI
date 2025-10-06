@@ -10,7 +10,7 @@ import {
   type InsertUser,
 } from "../shared/schema.js";
 import { db } from "./db.js";
-import { eq, desc, or } from "drizzle-orm";
+import { eq, desc, or, sql } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
@@ -19,15 +19,20 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   getUserByPhone(phone: string): Promise<User | undefined>;
   getUserByEmailOrPhone(emailOrPhone: string): Promise<User | undefined>;
+  getAllUsers(): Promise<User[]>;
+  getUserStats(): Promise<{ totalUsers: number; adminUsers: number; regularUsers: number }>;
 
   // Conversation methods
   createConversation(conversation: InsertConversation): Promise<Conversation>;
   getConversation(id: string): Promise<Conversation | undefined>;
   getUserConversations(userId: string): Promise<Conversation[]>;
+  getAllConversationsWithUser(): Promise<(Conversation & { user: User | null })[]>;
 
   // Message methods
   createMessage(message: InsertMessage): Promise<Message>;
   getMessagesByConversation(conversationId: string): Promise<Message[]>;
+  getAllMessages(): Promise<Message[]>;
+  getMessageStats(): Promise<{ totalMessages: number; userMessages: number; assistantMessages: number }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -125,6 +130,51 @@ export class DatabaseStorage implements IStorage {
       .from(messages)
       .where(eq(messages.conversationId, conversationId))
       .orderBy(messages.createdAt);
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return db
+      .select()
+      .from(users)
+      .orderBy(desc(users.createdAt));
+  }
+
+  async getUserStats(): Promise<{ totalUsers: number; adminUsers: number; regularUsers: number }> {
+    const allUsers = await db.select().from(users);
+    const totalUsers = allUsers.length;
+    const adminUsers = allUsers.filter(u => u.isAdmin === 1).length;
+    const regularUsers = totalUsers - adminUsers;
+    
+    return { totalUsers, adminUsers, regularUsers };
+  }
+
+  async getAllConversationsWithUser(): Promise<(Conversation & { user: User | null })[]> {
+    const result = await db
+      .select()
+      .from(conversations)
+      .leftJoin(users, eq(conversations.userId, users.id))
+      .orderBy(desc(conversations.createdAt));
+    
+    return result.map(row => ({
+      ...row.conversations,
+      user: row.users,
+    }));
+  }
+
+  async getAllMessages(): Promise<Message[]> {
+    return db
+      .select()
+      .from(messages)
+      .orderBy(desc(messages.createdAt));
+  }
+
+  async getMessageStats(): Promise<{ totalMessages: number; userMessages: number; assistantMessages: number }> {
+    const allMessages = await db.select().from(messages);
+    const totalMessages = allMessages.length;
+    const userMessages = allMessages.filter(m => m.role === 'user').length;
+    const assistantMessages = allMessages.filter(m => m.role === 'assistant').length;
+    
+    return { totalMessages, userMessages, assistantMessages };
   }
 }
 
