@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
 import { Shield, Lock, User } from "lucide-react";
-import logoImage from "@assets/Untitled_1759746112310.png";
+import logoImage from "@assets/image_1759850659010.png";
 
 const loginSchema = z.object({
   emailOrPhone: z.string().min(1, "Email or phone number is required"),

@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { queryClient } from "@/lib/queryClient";
-import logoImage from "@assets/Untitled_1759746112310.png";
+import logoImage from "@assets/image_1759850659010.png";
 
 const signupSchema = z.object({
   name: z.string().optional(),
