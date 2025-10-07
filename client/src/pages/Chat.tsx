@@ -10,7 +10,7 @@ import { Link } from "wouter";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Conversation, Message } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
-import logoImage from "@assets/image_1759850940291.png";
+import logoImage from "@assets/Untitled_1759746112310.png";
 
 const LANGUAGES = [
   { code: "en", name: "English", nativeName: "English" },
