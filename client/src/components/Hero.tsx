@@ -36,7 +36,7 @@ export function Hero() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12 px-4 max-w-md sm:max-w-none mx-auto">
             <Link href="/chat" className="w-full sm:w-auto">
               <Button size="lg" variant="default" className="w-full sm:w-auto sm:min-w-[200px] shadow-xl hover:shadow-2xl transition-all" data-testid="button-hero-launch">
-                Launch Copilot
+                Launch PashuAI
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="w-full sm:w-auto sm:min-w-[200px] bg-white/10 dark:bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 dark:hover:bg-white/20 hover:text-white dark:hover:text-white shadow-xl" data-testid="button-watch-demo">

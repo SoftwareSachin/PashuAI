@@ -180,7 +180,7 @@ export function Footer() {
         <div className="pt-8 border-t border-border/40">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              © 2025 Pashu AI. All rights reserved.
+              © 2025 Pashu AI by verdant . All rights reserved.
             </p>
             <div className="flex gap-6 text-xs text-muted-foreground">
               <span>Made with care for farmers</span>

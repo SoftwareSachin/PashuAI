@@ -177,7 +177,7 @@ export default function AdminLogin() {
             <span>Authorized personnel only</span>
           </div>
           <p className="text-xs text-slate-400 dark:text-slate-500">
-            © 2025 Pashu AI. All rights reserved.
+            © 2025 Pashu AI by verdant . All rights reserved.
           </p>
         </CardFooter>
       </Card>

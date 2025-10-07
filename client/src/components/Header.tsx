@@ -69,7 +69,7 @@ export function Header() {
                   >
                     <span className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
                     <Sparkles className="h-4 w-4 mr-2" />
-                    <span className="relative">Launch Copilot</span>
+                    <span className="relative">Launch PashuAI</span>
                   </Button>
                 </Link>
                 <Button 
@@ -154,7 +154,7 @@ export function Header() {
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <Sparkles className="h-4 w-4 mr-2" />
-                      Launch Copilot
+                      Launch PashuAI
                     </Button>
                   </Link>
                   <Button 

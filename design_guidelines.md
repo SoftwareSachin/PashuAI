@@ -104,7 +104,7 @@ Drawing inspiration from professional enterprise platforms like Linear (clean ty
 - Large hero image (agricultural landscape, modern farming technology)
 - Overlay: None (clean image with text positioned over uncluttered areas)
 - H1 headline with statistics badge above
-- Two CTAs: Primary "Launch Copilot", Secondary "Watch Demo"
+- Two CTAs: Primary "Launch PashuAI", Secondary "Watch Demo"
 - Height: 600px desktop, 500px mobile
 
 **Weather Forecast:**
