@@ -10,6 +10,7 @@ import { Link } from "wouter";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Conversation, Message } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
+import logoImage from "@assets/image_1759850940291.png";
 
 const LANGUAGES = [
   { code: "en", name: "English", nativeName: "English" },
@@ -303,21 +304,11 @@ export default function Chat() {
               </Button>
             </Link>
             <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg border-2 border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
-                <span className="text-sm sm:text-lg font-bold text-primary">PA</span>
-              </div>
-              <div className="min-w-0">
-                <h1 className="text-base sm:text-lg font-semibold text-foreground tracking-tight truncate">PashuAI</h1>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1.5">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                    </span>
-                    <span className="text-xs font-medium text-muted-foreground">Active</span>
-                  </div>
-                </div>
-              </div>
+              <img 
+                src={logoImage} 
+                alt="PashuAI" 
+                className="h-10 sm:h-12 w-auto object-contain shrink-0"
+              />
             </div>
           </div>
           <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
@@ -339,8 +330,12 @@ export default function Chat() {
         <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 pb-4">
           {messages.length === 0 && !sendMessageMutation.isPending && (
             <div className="text-center py-8 sm:py-12 lg:py-16">
-              <div className="inline-flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border-2 border-primary/20 bg-primary/5 mb-4 sm:mb-6">
-                <span className="text-2xl sm:text-3xl font-bold text-primary">PA</span>
+              <div className="inline-flex mb-4 sm:mb-6">
+                <img 
+                  src={logoImage} 
+                  alt="PashuAI" 
+                  className="h-16 sm:h-20 w-auto object-contain"
+                />
               </div>
               <h2 className="text-2xl sm:text-3xl font-semibold text-foreground mb-3 sm:mb-4 tracking-tight px-4">
                 Welcome to PashuAI
