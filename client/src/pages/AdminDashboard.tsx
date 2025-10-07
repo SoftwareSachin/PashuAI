@@ -8,7 +8,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
 import { Users, MessageSquare, TrendingUp, LogOut, Shield, Activity, Database } from "lucide-react";
 import { format } from "date-fns";
-import logoImage from "@assets/image_1759850659010.png";
+import logoImage from "@assets/Untitled_1759746112310.png";
 
 export default function AdminDashboard() {
   const { user, logout, isLoading } = useAuth();

@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Menu, X, Sparkles, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import logoImage from "@assets/image_1759850659010.png";
+import logoImage from "@assets/Untitled_1759746112310.png";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
