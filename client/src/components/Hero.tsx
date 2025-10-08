@@ -39,9 +39,11 @@ export function Hero() {
                 Launch PashuAI
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto sm:min-w-[200px] bg-white/10 dark:bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 dark:hover:bg-white/20 hover:text-white dark:hover:text-white shadow-xl" data-testid="button-watch-demo">
-              Watch Demo
-            </Button>
+            <a href="https://drive.google.com/file/d/1NbDMQub3IEhi_hRDZjxGe2bJgy_vpgAY/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto sm:min-w-[200px] bg-white/10 dark:bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 dark:hover:bg-white/20 hover:text-white dark:hover:text-white shadow-xl" data-testid="button-watch-demo">
+                Watch Demo
+              </Button>
+            </a>
           </div>
 
           <div className="grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 md:gap-6 lg:gap-8 max-w-2xl mx-auto px-2 sm:px-4">

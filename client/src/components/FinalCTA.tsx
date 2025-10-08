@@ -22,9 +22,11 @@ export function FinalCTA() {
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
             </Link>
-            <Button size="lg" variant="outline" data-testid="button-cta-demo">
-              Schedule Demo
-            </Button>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeQeR1ieBvOjq8Bq8o1NOdafKXq-5r8aXumfahojeOTA-VhGw/viewform?usp=sharing&ouid=106488619797420962036" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="outline" data-testid="button-cta-demo">
+                Contact us
+              </Button>
+            </a>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
