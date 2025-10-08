@@ -173,8 +173,7 @@ export class DatabaseStorage implements IStorage {
     const result = await db
       .select()
       .from(messages)
-      .leftJoin(conversations, eq(messages.conversationId, conversations.id))
-      .leftJoin(users, eq(conversations.userId, users.id))
+      .leftJoin(users, eq(messages.userId, users.id))
       .orderBy(desc(messages.createdAt));
     
     return result.map(row => ({
