@@ -260,8 +260,8 @@ export default function AdminDashboard() {
           <TabsContent value="queries" className="space-y-4">
             <Card className="border-slate-200 dark:border-slate-700 shadow-lg">
               <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20">
-                <CardTitle className="text-slate-900 dark:text-white">User Queries</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400">Complete query history from all users</CardDescription>
+                <CardTitle className="text-slate-900 dark:text-white">User Queries & AI Responses</CardTitle>
+                <CardDescription className="text-slate-600 dark:text-slate-400">Complete conversation history from all users</CardDescription>
               </CardHeader>
               <CardContent className="pt-6">
                 {messagesLoading ? (
@@ -271,21 +271,31 @@ export default function AdminDashboard() {
                   </div>
                 ) : (
                   <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
-                    {(messages as any)?.filter((msg: any) => msg.role === 'user').map((msg: any) => (
+                    {(messages as any)?.map((msg: any) => (
                       <div
                         key={msg.id}
-                        className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-800/50 hover:shadow-md transition-shadow"
-                        data-testid={`query-${msg.id}`}
+                        className={`border border-slate-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md transition-shadow ${
+                          msg.role === 'user' 
+                            ? 'bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20' 
+                            : 'bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20'
+                        }`}
+                        data-testid={`message-${msg.id}`}
                       >
                         <div className="flex justify-between items-start mb-3">
-                          <Badge className="bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400">User Query</Badge>
+                          <Badge className={
+                            msg.role === 'user' 
+                              ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' 
+                              : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                          }>
+                            {msg.role === 'user' ? 'User Query' : 'AI Response'}
+                          </Badge>
                           <span className="text-xs text-slate-500 dark:text-slate-400">
                             {format(new Date(msg.createdAt), "MMM d, yyyy HH:mm")}
                           </span>
                         </div>
-                        <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{msg.content}</p>
+                        <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words">{msg.content}</p>
                         <p className="text-xs text-slate-500 dark:text-slate-500 mt-3 font-mono">
-                          Conversation: {msg.conversationId.slice(0, 8)}...
+                          Conversation: {msg.conversationId}
                         </p>
                       </div>
                     ))}
