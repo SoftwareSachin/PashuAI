@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { MessageSquare, Globe, Zap } from "lucide-react";
+import logoImage from "@assets/Untitled_1759746112310.png";
 
 export function ChatDemo() {
   return (
@@ -62,8 +63,8 @@ export function ChatDemo() {
 
           <Card className="p-5 xs:p-6 sm:p-7 md:p-8 bg-card border-border/50">
             <div className="flex items-center gap-3 xs:gap-4 mb-5 xs:mb-6 pb-5 xs:pb-6 border-b border-border/50">
-              <div className="h-10 w-10 xs:h-12 xs:w-12 rounded-xl border-2 border-primary/20 bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <span className="text-lg xs:text-xl font-bold text-primary">PA</span>
+              <div className="h-10 w-10 xs:h-12 xs:w-12 rounded-xl bg-white flex items-center justify-center flex-shrink-0 p-1">
+                <img src={logoImage} alt="PashuAI Logo" className="h-full w-full object-contain" />
               </div>
               <div className="min-w-0">
                 <h4 className="font-semibold text-foreground text-sm xs:text-base truncate">PashuAI</h4>
