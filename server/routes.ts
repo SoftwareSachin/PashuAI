@@ -163,8 +163,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/admin/messages", adminMiddleware, async (req, res) => {
     try {
-      const messages = await storage.getAllMessages();
-      res.json(messages);
+      const messages = await storage.getAllMessagesWithUser();
+      const messagesWithoutPasswords = messages.map(msg => ({
+        ...msg,
+        user: msg.user ? (() => {
+          const { passwordHash, ...userWithoutPassword } = msg.user;
+          return userWithoutPassword;
+        })() : null
+      }));
+      res.json(messagesWithoutPasswords);
     } catch (error: any) {
       console.error("Get all messages error:", error);
       res.status(500).json({ error: error.message });
