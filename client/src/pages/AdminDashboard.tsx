@@ -294,9 +294,13 @@ export default function AdminDashboard() {
                           </span>
                         </div>
                         <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap break-words">{msg.content}</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-500 mt-3 font-mono">
-                          Conversation: {msg.conversationId}
-                        </p>
+                        <div className="flex items-center gap-2 mt-3">
+                          <p className="text-xs text-slate-500 dark:text-slate-500">
+                            Asked by: <span className="font-medium text-slate-700 dark:text-slate-300">
+                              {(msg as any).user?.name || (msg as any).user?.email || (msg as any).user?.phone || 'Unknown User'}
+                            </span>
+                          </p>
+                        </div>
                       </div>
                     ))}
                   </div>
