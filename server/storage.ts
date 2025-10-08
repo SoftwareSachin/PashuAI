@@ -32,6 +32,7 @@ export interface IStorage {
   createMessage(message: InsertMessage): Promise<Message>;
   getMessagesByConversation(conversationId: string): Promise<Message[]>;
   getAllMessages(): Promise<Message[]>;
+  getAllMessagesWithUser(): Promise<(Message & { user: User | null })[]>;
   getMessageStats(): Promise<{ totalMessages: number; userMessages: number; assistantMessages: number }>;
 }
 
@@ -166,6 +167,20 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(messages)
       .orderBy(desc(messages.createdAt));
+  }
+
+  async getAllMessagesWithUser(): Promise<(Message & { user: User | null })[]> {
+    const result = await db
+      .select()
+      .from(messages)
+      .leftJoin(conversations, eq(messages.conversationId, conversations.id))
+      .leftJoin(users, eq(conversations.userId, users.id))
+      .orderBy(desc(messages.createdAt));
+    
+    return result.map(row => ({
+      ...row.messages,
+      user: row.users,
+    }));
   }
 
   async getMessageStats(): Promise<{ totalMessages: number; userMessages: number; assistantMessages: number }> {
