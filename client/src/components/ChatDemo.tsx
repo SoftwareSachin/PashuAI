@@ -48,7 +48,7 @@ export function ChatDemo() {
                 <div>
                   <h4 className="text-sm xs:text-base font-medium text-foreground mb-0.5 xs:mb-1">Real-time Responses</h4>
                   <p className="text-xs xs:text-sm text-muted-foreground leading-relaxed">
-                    Get instant expert advice powered by Gemini AI
+                    Get instant expert advice powered by A3 Veer
                   </p>
                 </div>
               </div>

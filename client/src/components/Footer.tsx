@@ -14,7 +14,7 @@ export function Footer() {
               />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              AI-powered agricultural intelligence empowering farmers with multilingual advisory for crop management, livestock care, and real-time market insights.
+              Pashu.AI harnesses artificial intelligence to deliver personalized, multilingual guidance for crop management, livestock care, pet wellness, and real-time market insights—empowering millions to adapt, thrive, and prosper in our changing climate.
             </p>
             <div className="flex gap-3 mt-4">
               <a 
@@ -180,7 +180,7 @@ export function Footer() {
         <div className="pt-8 border-t border-border/40">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              © 2025 Pashu AI by verdant . All rights reserved.
+              © 2025 Pashu AI by Verdant. All rights reserved.
             </p>
             <div className="flex gap-6 text-xs text-muted-foreground">
               <span>Made with care for farmers</span>

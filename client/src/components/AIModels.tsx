@@ -104,8 +104,8 @@ export function AIModels() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
           {[
-            { title: "Pashu AI Vision", subtitle: "Computer vision for disease detection", status: "Coming Soon", testId: "upcoming-vision" },
-            { title: "Pashu AI CRA", subtitle: "Climate Resilient Agriculture specialist", status: "In Development", testId: "upcoming-cra" },
+            { title: "Animal Mark AI vision", subtitle: "Dairy Net Zero methane monitoring that certifies and lists carbon credits automatically", status: "Coming Soon", testId: "upcoming-vision" },
+            { title: "Pashu AI CRA- veer", subtitle: "Climate Resilient Agriculture Companion", status: "In Development", testId: "upcoming-cra" },
             { title: "Pashu AI US", subtitle: "Adapted for US agricultural practices", status: "Planned", testId: "upcoming-us" },
           ].map((upcoming) => (
             <Card key={upcoming.title} className="p-5 xs:p-6 bg-muted border-dashed" data-testid={upcoming.testId}>
